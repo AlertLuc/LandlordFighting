@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/bk.png</file>
+        <file>image/button.png</file>
+        <file>image/callLord.png</file>
+        <file>image/card.png</file>
+        <file>image/clock.png</file>
+        <file>image/farmer_head.png</file>
+        <file>image/home.png</file>
+        <file>image/lord_head.png</file>
+        <file>image/noCall.png</file>
+        <file>image/pass.png</file>
+        <file>image/win.png</file>
+        <file>image/wrong.png</file>
+    </qresource>
+</RCC>
