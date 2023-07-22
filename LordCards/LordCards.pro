@@ -13,11 +13,13 @@ QT += widgets
 
 SOURCES += \
     card.cpp \
+    cardlist.cpp \
     main.cpp \
     maindialog.cpp
 
 HEADERS += \
     card.h \
+    cardlist.h \
     maindialog.h
 
 FORMS += \
