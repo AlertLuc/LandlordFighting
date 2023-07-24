@@ -5,6 +5,7 @@
 #include <QList>
 #include <card.h>
 
+#define CARDLIST_TYPE_COUNT  (8)
 enum CARDLIST_TYPE{
     CARDLIST_LEFTPLAYER,
     CARDLIST_MIDPLAYER,
@@ -16,7 +17,6 @@ enum CARDLIST_TYPE{
     CARDLIST_RIGHTPLAYER_OUTCARD
 
 };
-
 
 class CardList : public QObject
 {
@@ -31,16 +31,39 @@ public:
     void addCard(Card* card);
 
     // 以列表形式添加牌
-    void addCard(QList<Card*> card);
+    void addCard(QList<Card*> cards);
+
+    // 显示牌堆
+    void ShowCard();
+
+    // 打印牌堆
+    void PrintCard();
+
+    // 获取选中的列表
+    QList<Card*> SelectCardList();
+
+    // 删除选中的列表
+    void DeleteCardList();
+
+    // 从牌堆选一张牌
+    Card* SelectOneCard();
+
+    // 选牌
+
+    // 排序
 
 private:
+
+    // 牌类型
     int m_cardListType;
     // 牌堆
     int m_beginX = 0;
     int m_beginY = 0;
-public:
-    QList<Card*> m_cardlist;
 
+public:
+
+    // 管理牌列表
+    QList<Card*> m_cardlist;
 
 signals:
 

@@ -2,6 +2,7 @@
 #define MAINDIALOG_H
 
 #include <QDialog>
+#include "cardlist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainDialog; }
@@ -31,5 +32,6 @@ private slots:
 
 private:
     Ui::MainDialog *ui;
+    CardList m_cardList[CARDLIST_TYPE_COUNT];
 };
 #endif // MAINDIALOG_H

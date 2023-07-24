@@ -1,7 +1,8 @@
 #include "maindialog.h"
 #include "ui_maindialog.h"
 #include "QPalette"
-#include "card.h"
+#include "cardlist.h"
+#include "QDebug"
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainDialog)
@@ -16,6 +17,11 @@ MainDialog::MainDialog(QWidget *parent)
     ui->sw_page->setCurrentIndex(0);
 
     slot_setBackGroud();
+
+    for(int i = 0; i< CARDLIST_TYPE_COUNT; ++i)
+    {
+        m_cardList[i].setCardListType(1);
+    }
 }
 
 MainDialog::~MainDialog()
@@ -50,21 +56,30 @@ void MainDialog::on_pb_text_clicked()
 
 void MainDialog::slot_startOneGamg()
 {
-    int beginx = 150;
-    int beginy = 100;
+//    int beginx = 150;
+//    int beginy = 100;
 
-    for(int i = 0; i < 54; ++i)
+//    for(int i = 0; i < 54; ++i)
+//    {
+//        //创建牌
+//        Card *card = new Card(i, this->ui->page_game);
+
+//        //设置
+//        card->setCardPositive(true);
+//        card->move(beginx + (i) % 13 * CARD_SHOW_WIDTH, beginy + (i) / 13 * Card_Height);
+
+//        //显示牌
+//        card->show();
+//    }
+    for(int i =0; i< 54;++i)
     {
-        //创建牌
-        Card *card = new Card(i, this->ui->page_game);
-
-        //设置
-        card->setCardPositive(true);
-        card->move(beginx + (i) % 13 * CARD_SHOW_WIDTH, beginy + (i) / 13 * Card_Height);
-
-        //显示牌
-        card->show();
+        Card* card = new Card(i, this->ui->page_game);
+        m_cardList[CARDLIST_WHOLE].addCard(card);
     }
+    m_cardList[CARDLIST_WHOLE].ShowCard();
+
+    qDebug()<<"总牌数";
+    m_cardList[CARDLIST_WHOLE].PrintCard();
 }
 
 // 添加背景
