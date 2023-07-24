@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "cardlist.h"
+#include "QTimer"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainDialog; }
@@ -30,8 +31,13 @@ private slots:
 
     void slot_startOneGamg();
 
+    void slot_refreshAllCardList();
+
 private:
     Ui::MainDialog *ui;
+
     CardList m_cardList[CARDLIST_TYPE_COUNT];
+
+    QTimer m_refreshTime;
 };
 #endif // MAINDIALOG_H

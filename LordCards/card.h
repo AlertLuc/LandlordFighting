@@ -48,10 +48,8 @@ enum CardSuit
 // 画图尺寸
 #define Card_Width (80)
 #define Card_Height (105)
-
 // 点击上移
 #define CARD_UP_DISTANCE (20)
-
 // 牌的时隔举例
 #define CARD_SHOW_WIDTH (25)
 
@@ -67,40 +65,31 @@ public:
     explicit Card(int number, QWidget *parent = nullptr);
 
     ~Card();
-
     // 设置是否选择
     void setSelected();
     void setUnSelected();
-
     // 设置鼠标点击
     void mousePressEvent(QMouseEvent *event);
-
     // 设置正反面
     void setCardPositive(bool flag);
-
     // 牌上移
     void slot_moveUp();
 
 private:
     Ui::Card *ui;
     void init(int point, int suit);
-
     // 用来存总图片， 不用每次都绘制加载
     static QImage m_img;
-
     // 绘制 重绘事件
     void paintEvent(QPaintEvent *event);
 
 public:
     // 是否点击
     bool m_isClicked = false;
-
     // 正反面
     bool m_isPositive = false;
-
     // 花色
     int m_suit;
-
     // 点数
     int m_point;
 };

@@ -3,6 +3,7 @@
 #include "QPalette"
 #include "cardlist.h"
 #include "QDebug"
+#include <synchapi.h>
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainDialog)
@@ -11,6 +12,7 @@ MainDialog::MainDialog(QWidget *parent)
 
     // 最大与最小化
     this->setWindowFlags(Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
+
     // 标题
     this->setWindowTitle("斗地主");
 
@@ -20,8 +22,10 @@ MainDialog::MainDialog(QWidget *parent)
 
     for(int i = 0; i< CARDLIST_TYPE_COUNT; ++i)
     {
-        m_cardList[i].setCardListType(1);
+        m_cardList[i].setCardListType(i);
     }
+
+    connect(&m_refreshTime, SIGNAL(timeout()), this, SLOT(slot_refreshAllCardList()));
 }
 
 MainDialog::~MainDialog()
@@ -71,15 +75,83 @@ void MainDialog::slot_startOneGamg()
 //        //显示牌
 //        card->show();
 //    }
-    for(int i =0; i< 54;++i)
+    for(int i = 0; i < 54; ++i)
     {
         Card* card = new Card(i, this->ui->page_game);
+        card->setCardPositive(false);
         m_cardList[CARDLIST_WHOLE].addCard(card);
     }
-    m_cardList[CARDLIST_WHOLE].ShowCard();
+    // 洗牌
+    m_cardList[CARDLIST_WHOLE].shuffle();
+
+    m_refreshTime.start(1000/10);
+
+//    m_cardList[CARDLIST_WHOLE].ShowCard();
 
     qDebug()<<"总牌数";
     m_cardList[CARDLIST_WHOLE].PrintCard();
+
+    Sleep(1000);
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+    slot_refreshAllCardList();
+
+    //发牌动画
+    for(int i = 0; i < 3; ++i)
+    {
+        Card* card = m_cardList[CARDLIST_WHOLE].SelectOneCard();
+        m_cardList[CARDLIST_LORD].addCard(card);
+    }
+
+    Sleep(1000);
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+    slot_refreshAllCardList();
+
+    m_cardList[CARDLIST_WHOLE].SortCard();
+
+    //玩家手牌顺序
+    for(int i = 0; i < 54 - 3; ++i)
+    {
+        Sleep(100);
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        Card* card = m_cardList[CARDLIST_WHOLE].SelectOneCard();
+        if(i%3 == 0)
+        {
+            m_cardList[CARDLIST_LEFTPLAYER].addCard(card);
+        }
+        else if(i%3 == 1)
+        {
+            m_cardList[CARDLIST_MIDPLAYER].addCard(card);
+        }
+        else
+        {
+            m_cardList[CARDLIST_RIGHTPLAYER].addCard(card);
+        }
+    }
+
+    qDebug()<<"";
+    m_cardList[CARDLIST_LEFTPLAYER].PrintCard();
+
+    qDebug()<<"";
+    m_cardList[CARDLIST_MIDPLAYER].PrintCard();
+
+    qDebug()<<"";
+    m_cardList[CARDLIST_RIGHTPLAYER].PrintCard();
+
+    // 排序
+//    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
+//    m_cardList[CARDLIST_MIDPLAYER].SortCard();
+//    m_cardList[CARDLIST_RIGHTPLAYER].SortCard();
+
+}
+
+void MainDialog::slot_refreshAllCardList()
+{
+    for(int i = 0; i < CARDLIST_TYPE_COUNT; ++i)
+    {
+        m_cardList[i].ShowCard();
+    }
 }
 
 // 添加背景
