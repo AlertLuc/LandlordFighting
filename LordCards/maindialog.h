@@ -33,10 +33,14 @@ private slots:
 
     void slot_refreshAllCardList();
 
+    void on_pb_playCard_clicked();
+
 private:
     Ui::MainDialog *ui;
 
     CardList m_cardList[CARDLIST_TYPE_COUNT];
+
+    QList<Card*> m_cardLastPlayer;
 
     QTimer m_refreshTime;
 };

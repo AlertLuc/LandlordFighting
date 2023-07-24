@@ -15,12 +15,14 @@ SOURCES += \
     card.cpp \
     cardlist.cpp \
     main.cpp \
-    maindialog.cpp
+    maindialog.cpp \
+    rulers.cpp
 
 HEADERS += \
     card.h \
     cardlist.h \
-    maindialog.h
+    maindialog.h \
+    rulers.h
 
 FORMS += \
     card.ui \

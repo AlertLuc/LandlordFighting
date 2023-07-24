@@ -4,6 +4,7 @@
 #include "cardlist.h"
 #include "QDebug"
 #include <synchapi.h>
+#include "rulers.h"
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainDialog)
@@ -168,4 +169,22 @@ void MainDialog::slot_setBackGroud()
     this->setPalette(p);
 }
 
+
+
+void MainDialog::on_pb_playCard_clicked()
+{
+    // 选择出牌
+
+    // 清除
+
+    // 判断是否符号规则
+    QList<Card*> lst = m_cardList[CARDLIST_MIDPLAYER].SelectCardList();
+    if(Rulers::canPlayCards(lst, m_cardLastPlayer)){
+        // 获得选中添加玩家外面手牌
+        // 删除选中
+        m_cardList[CARDLIST_MIDPLAYER_OUTCARD].addCard(lst);
+        // 玩家手牌外面显示
+        m_cardList[CARDLIST_MIDPLAYER].DeleteCardList();
+    }
+}
 
