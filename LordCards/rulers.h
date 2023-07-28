@@ -5,21 +5,20 @@
 using namespace std;
 
 enum CARD_TYPE{
-    FOUR_WITH_TWO,//四带两对
     CARDTYPE_NONE,//啥也不是
     SINGLE,//单张
+    PAIR,//对子
     TRIPLE,//三张
     TRIPLE_WITH_ONE,//三带一
     TRIPLE_WITH_TWO,//三带二
-    STRAIGHT_PAIR,//连对
     STRAIGHT,//顺子
+    STRAIGHT_PAIR,//连对
     PLANE,//飞机
     PLANE_WITH_WING,//飞机带翅膀
-    FOUR_WITH_ONE,//四带一
+    FOUR_WITH_TWO,//四带两对
     FOUR_WITH_TWO_PAIR,//四带二
     BOMB,//炸弹
     KINGBOMB,//王炸
-    PAIR//对子
 };
 
 class Rulers

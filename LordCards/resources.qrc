@@ -12,5 +12,55 @@
         <file>image/pass.png</file>
         <file>image/win.png</file>
         <file>image/wrong.png</file>
+        <file>sound/3.wav</file>
+        <file>sound/4.wav</file>
+        <file>sound/5.wav</file>
+        <file>sound/6.wav</file>
+        <file>sound/7.wav</file>
+        <file>sound/8.wav</file>
+        <file>sound/9.wav</file>
+        <file>sound/10.wav</file>
+        <file>sound/11.wav</file>
+        <file>sound/12.wav</file>
+        <file>sound/13.wav</file>
+        <file>sound/14.wav</file>
+        <file>sound/15.wav</file>
+        <file>sound/16.wav</file>
+        <file>sound/17.wav</file>
+        <file>sound/bkMusic.wav</file>
+        <file>sound/bujiao.wav</file>
+        <file>sound/callLord.wav</file>
+        <file>sound/dui3.wav</file>
+        <file>sound/dui4.wav</file>
+        <file>sound/dui5.wav</file>
+        <file>sound/dui6.wav</file>
+        <file>sound/dui7.wav</file>
+        <file>sound/dui8.wav</file>
+        <file>sound/dui9.wav</file>
+        <file>sound/dui10.wav</file>
+        <file>sound/dui11.wav</file>
+        <file>sound/dui12.wav</file>
+        <file>sound/dui13.wav</file>
+        <file>sound/dui14.wav</file>
+        <file>sound/dui15.wav</file>
+        <file>sound/feiji.wav</file>
+        <file>sound/feijidaichibang.wav</file>
+        <file>sound/jiaodizhu.wav</file>
+        <file>sound/liandui.wav</file>
+        <file>sound/loseMusic.wav</file>
+        <file>sound/noCall.wav</file>
+        <file>sound/passMusic.wav</file>
+        <file>sound/planeMusic.wav</file>
+        <file>sound/qiangdizhu.wav</file>
+        <file>sound/sandaiyi.wav</file>
+        <file>sound/sandaiyidui.wav</file>
+        <file>sound/sange.wav</file>
+        <file>sound/shunzi.wav</file>
+        <file>sound/sidaier.wav</file>
+        <file>sound/sidailiangdui.wav</file>
+        <file>sound/wangzha.wav</file>
+        <file>sound/win.wav</file>
+        <file>sound/xipai.wav</file>
+        <file>sound/zhadan.wav</file>
     </qresource>
 </RCC>

@@ -114,7 +114,7 @@ void MainDialog::slot_startOneGamg()
     //玩家手牌顺序
     for(int i = 0; i < 54 - 3; ++i)
     {
-        Sleep(100);
+        Sleep(50);
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
         Card* card = m_cardList[CARDLIST_WHOLE].SelectOneCard();
         if(i%3 == 0)

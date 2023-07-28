@@ -206,7 +206,7 @@ void CardList::DeleteCardList()
     // 移除列表节点
     for(auto ite = m_cardlist.begin(); ite != m_cardlist.end(); )
     {
-        Card*card =*ite;
+        Card* card =*ite;
         if(card->m_isClicked)
         {
             m_cardlist.erase(ite);

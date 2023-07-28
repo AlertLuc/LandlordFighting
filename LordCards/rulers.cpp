@@ -5,12 +5,11 @@ Rulers::Rulers()
 {
 
 }
-
 int Rulers::getCardtype(QList<Card *> &cards)
 {
     int n = cards.count();
     if(n == 0)return CARDTYPE_NONE;
-    if(n == 1)return STRAIGHT;
+    if(n == 1)return SINGLE;
     else if(n == 2){
         if(cards.at(0)->m_point == cards.at(1)->m_point)
         {
@@ -22,7 +21,7 @@ int Rulers::getCardtype(QList<Card *> &cards)
         }
     }
     else if(n == 3){
-        if(cards.at(0)->m_point ==  cards.at(1)->m_point && cards.at(1)->m_point == cards.at(2)->m_point)
+        if(cards.at(0)->m_point == cards.at(1)->m_point && cards.at(1)->m_point == cards.at(2)->m_point)
         {
             return TRIPLE;
         }
@@ -317,7 +316,6 @@ bool Rulers::compareCards(QList<Card *> &cards1, QList<Card *> &cards2)
 bool Rulers::compareSameTypeCards(QList<Card *> &cards1, QList<Card *> &cards2, int type)
 {
     int value1 = 0; int value2 = 0;
-
     switch (type) {
         case FOUR_WITH_TWO:
     {   map<int, int> mapPointToCount1;
@@ -431,76 +429,8 @@ bool Rulers::compareSameTypeCards(QList<Card *> &cards1, QList<Card *> &cards2, 
             return value1 > value2;
         }
                 break;
-        case FOUR_WITH_ONE:
-        {   map<int, int> mapPointToCount1;
-            map<int, int> mapPointToCount2;
-            for(auto card: cards1)
-            {
-                mapPointToCount1[card->m_point] += 1;
-                if(mapPointToCount1[card->m_point] == 4) value1 = card->m_point;
-            }
-            for(auto card: cards2)
-            {
-                mapPointToCount2[card->m_point] += 1;
-                if(mapPointToCount2[card->m_point] == 4) value2 = card->m_point;
-            }
-            return value1 > value2;
-        }
-                break;
-        default:
-            break;
-    }
-
 }
-//switch (type) {
-//case FOUR_WITH_TWO:
-
-//    break;
-//case CARDTYPE_NONE:
-
-//    break;
-//case SINGLE:
-
-//    break;
-//case TRIPLE:
-
-//    break;
-//case TRIPLE_WITH_ONE:
-
-//    break;
-//case TRIPLE_WITH_TWO:
-
-//    break;
-//case STRAIGHT_PAIR:
-
-//    break;
-//case STRAIGHT:
-
-//    break;
-//case PAIR:
-
-//    break;
-//case KINGBOMB:
-
-//    break;
-//case BOMB:
-
-//    break;
-//case FOUR_WITH_TWO_PAIR:
-
-//    break;
-//case PLANE:
-
-//    break;
-//case PLANE_WITH_WING:
-
-//    break;
-//case FOUR_WITH_ONE:
-
-//    break;
-//default:
-//    break;
-//}
+}
 bool Rulers::canBeat(QList<Card *> &cardInHand, QList<Card *> &cardLastPlayer)
 {
     return compareCards(cardInHand, cardLastPlayer);
