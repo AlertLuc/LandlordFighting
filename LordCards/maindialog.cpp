@@ -8,7 +8,7 @@
 #include "cardsound.h"
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::MainDialog)
+    , ui(new Ui::MainDialog),m_playround(this, parent)
 {
     ui->setupUi(this);
 
@@ -80,6 +80,10 @@ void MainDialog::slot_startOneGamg()
 //        //显示牌
 //        card->show();
 //    }
+
+    // 出牌叫地主隐藏
+    slot_showCallLord(false);
+    slot_showPlayCards(false);
     for(int i = 0; i < 54; ++i)
     {
         Card* card = new Card(i, this->ui->page_game);
@@ -151,6 +155,7 @@ void MainDialog::slot_startOneGamg()
 //    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
 //    m_cardList[CARDLIST_MIDPLAYER].SortCard();
 //    m_cardList[CARDLIST_RIGHTPLAYER].SortCard();
+    m_playround.startRound(CARDLIST_MIDPLAYER);
 
 }
 
@@ -181,18 +186,64 @@ void MainDialog::slot_setBackGroud()
 void MainDialog::on_pb_playCard_clicked()
 {
     // 选择出牌
-
+    m_playround.slot_midPlayerPlayCards();
     // 清除
 
     // 判断是否符号规则
-    QList<Card*> lst = m_cardList[CARDLIST_MIDPLAYER].SelectCardList();
-    if(Rulers::canPlayCards(lst, m_cardLastPlayer)){
-        // 获得选中添加玩家外面手牌
-        // 删除选中
-        CardSound::playCardSound(lst);
-        m_cardList[CARDLIST_MIDPLAYER_OUTCARD].addCard(lst);
-        // 玩家手牌外面显示
-        m_cardList[CARDLIST_MIDPLAYER].DeleteCardList();
+//    QList<Card*> lst = m_cardList[CARDLIST_MIDPLAYER].SelectCardList();
+//    if(Rulers::canPlayCards(lst, m_playround.lastPlayerCards)){
+//        // 获得选中添加玩家外面手牌
+//        // 删除选中
+//        CardSound::playCardSound(lst);
+//        m_cardList[CARDLIST_MIDPLAYER_OUTCARD].addCard(lst);
+//        // 玩家手牌外面显示
+//        m_cardList[CARDLIST_MIDPLAYER].DeleteCardList();
+//    }
+}
+
+void MainDialog::slot_delectAllPlayerCards()
+{
+    for(int i = CARDLIST_LEFTPLAYER; i < 3; i++)
+    {
+        while(m_cardList[i+CARDLIST_LEFTPLAYER_OUTCARD].m_cardlist.size() != 0)
+        {
+            Card* card = m_cardList[i+CARDLIST_LEFTPLAYER_OUTCARD].SelectOneCard();
+            card->hide();
+        }
+    }
+}
+
+void MainDialog::slot_delectPlayerOutCard(int player)
+{
+    int playerOutCard = player + CARDLIST_LEFTPLAYER_OUTCARD;
+    while(m_cardList[playerOutCard].m_cardlist.size() != 0)
+    {
+        Card* card = m_cardList[playerOutCard].SelectOneCard();
+        card->hide();
+    }
+}
+
+void MainDialog::slot_showPlayCards(bool flag)
+{
+    if(flag)
+    {
+        ui->wdg_palyCards->show();
+
+    }
+    else{
+        ui->wdg_palyCards->hide();
+    }
+}
+
+void MainDialog::slot_showCallLord(bool flag)
+{
+    if(flag)
+    {
+        ui->wdg_callLord->show();
+
+    }
+    else{
+        ui->wdg_callLord->hide();
     }
 }
 

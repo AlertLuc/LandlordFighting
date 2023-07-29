@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "cardlist.h"
 #include "QTimer"
+#include"cardround.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainDialog; }
@@ -35,13 +36,24 @@ private slots:
 
     void on_pb_playCard_clicked();
 
+    void slot_delectAllPlayerCards();
+
+    void slot_delectPlayerOutCard(int player);
+
+    void slot_showPlayCards(bool flag);
+
+    void slot_showCallLord(bool flag);
 private:
     Ui::MainDialog *ui;
 
     CardList m_cardList[CARDLIST_TYPE_COUNT];
 
-    QList<Card*> m_cardLastPlayer;
+    //QList<Card*> m_cardLastPlayer;回合管理
+
+    Cardround m_playround;
 
     QTimer m_refreshTime;
+
+    friend class Cardround;
 };
 #endif // MAINDIALOG_H
