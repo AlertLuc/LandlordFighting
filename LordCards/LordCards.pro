@@ -14,6 +14,7 @@ QT += widgets
 SOURCES += \
     card.cpp \
     cardlist.cpp \
+    cardround.cpp \
     cardsound.cpp \
     main.cpp \
     maindialog.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     card.h \
     cardlist.h \
+    cardround.h \
     cardsound.h \
     maindialog.h \
     rulers.h

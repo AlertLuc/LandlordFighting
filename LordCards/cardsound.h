@@ -3,6 +3,8 @@
 
 #include<QSound>
 #include<QSoundEffect>
+#include<card.h>
+#include<rulers.h>
 
 enum SOUNDE_TYPE{
     SOUND_NOCALL,
@@ -22,6 +24,8 @@ public:
     static void palySound(int type);
 
     static void playBGM();
+
+    static void playCardSound(QList<Card*> cards);
 
 
 

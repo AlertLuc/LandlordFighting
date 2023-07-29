@@ -5,6 +5,7 @@
 #include "QDebug"
 #include <synchapi.h>
 #include "rulers.h"
+#include "cardsound.h"
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainDialog)
@@ -27,6 +28,9 @@ MainDialog::MainDialog(QWidget *parent)
     }
 
     connect(&m_refreshTime, SIGNAL(timeout()), this, SLOT(slot_refreshAllCardList()));
+
+
+    CardSound::playBGM();
 }
 
 MainDialog::~MainDialog()
@@ -97,6 +101,8 @@ void MainDialog::slot_startOneGamg()
 
     slot_refreshAllCardList();
 
+    QSound sound(":/sound/xipai.wav");
+    sound.play();
     //发牌动画
     for(int i = 0; i < 3; ++i)
     {
@@ -140,6 +146,7 @@ void MainDialog::slot_startOneGamg()
     qDebug()<<"";
     m_cardList[CARDLIST_RIGHTPLAYER].PrintCard();
 
+    sound.stop();
     // 排序
 //    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
 //    m_cardList[CARDLIST_MIDPLAYER].SortCard();
@@ -182,6 +189,7 @@ void MainDialog::on_pb_playCard_clicked()
     if(Rulers::canPlayCards(lst, m_cardLastPlayer)){
         // 获得选中添加玩家外面手牌
         // 删除选中
+        CardSound::playCardSound(lst);
         m_cardList[CARDLIST_MIDPLAYER_OUTCARD].addCard(lst);
         // 玩家手牌外面显示
         m_cardList[CARDLIST_MIDPLAYER].DeleteCardList();
