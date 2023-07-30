@@ -137,8 +137,6 @@ void CardList::ShowCard()
                 card->show();
             }
             break;
-        default:
-            break;
     }
 }
 // 打印牌堆
@@ -150,12 +148,12 @@ void CardList::PrintCard()
     {
         if(card->m_point == Suit_SamllKing)
         {
-            str += "小王";
+            str += "小王 ";
             continue;
         }
         if(card->m_point == Suit_BigKing)
         {
-            str += "大王";
+            str += "大王 ";
             continue;
         }
         switch (card->m_suit) {
@@ -179,11 +177,11 @@ void CardList::PrintCard()
         }
         if(card->m_point == Card_A)
         {
-            str += "A";
+            str += "A ";
         }
         else if(card->m_point == Card_2)
         {
-            str += "2";
+            str += "2 ";
         }
         else
         {
@@ -215,7 +213,7 @@ void CardList::DeleteCardList()
         Card* card =*ite;
         if(card->m_isClicked)
         {
-            m_cardlist.erase(ite);
+            ite = m_cardlist.erase(ite);
         }
         else
         {
