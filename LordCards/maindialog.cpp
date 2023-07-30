@@ -247,3 +247,9 @@ void MainDialog::slot_showCallLord(bool flag)
     }
 }
 
+
+void MainDialog::on_pb_pass_clicked()
+{
+    m_playround.slot_midPlayerPass();
+}
+

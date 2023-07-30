@@ -89,7 +89,13 @@ void Cardround::slot_midPlayerPlayCards()
 
 void Cardround::slot_midPlayerPass()
 {
-
+    if(biggestPlayer == CARDLIST_MIDPLAYER)
+    {
+        return;
+    }
+    m_maindialog->slot_showPlayCards(false);
+    CardSound::palySound(SOUND_PASS);
+    turnPlayer(CARDLIST_MIDPLAYER+1);
 }
 
 void Cardround::slot_computerRound(int player)
@@ -104,9 +110,11 @@ void Cardround::slot_computerPlayCards(int player)
 {
     QList<Card*> cards;
 
-    if(AIPlayCard::findSmallestSingle(m_maindialog->m_cardList[player].m_cardlist) != 0){
-        cards = m_maindialog->m_cardList[player].SelectCardList();
-    }
+//    if(AIPlayCard::findSmallestCards(m_maindialog->m_cardList[player].m_cardlist) != 0){
+//        cards = m_maindialog->m_cardList[player].SelectCardList();
+//    }
+    cards = AIPlayCard::BeatCards(m_maindialog->m_cardList[player].m_cardlist,
+                                  lastPlayerCards);
     if(cards.size() == 0)
     {
         CardSound::palySound(SOUND_PASS);

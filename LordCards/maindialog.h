@@ -43,6 +43,8 @@ private slots:
     void slot_showPlayCards(bool flag);
 
     void slot_showCallLord(bool flag);
+    void on_pb_pass_clicked();
+
 private:
     Ui::MainDialog *ui;
 
