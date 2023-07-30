@@ -104,12 +104,20 @@ void Cardround::slot_computerPlayCards(int player)
 {
     QList<Card*> cards;
 
+    if(AIPlayCard::findSmallestSingle(m_maindialog->m_cardList[player].m_cardlist) != 0){
+        cards = m_maindialog->m_cardList[player].SelectCardList();
+    }
     if(cards.size() == 0)
     {
         CardSound::palySound(SOUND_PASS);
     }else
     {
-        delaySecond(2000);
+//        delaySecond(2000);
+
+        CardSound::playCardSound(cards);
+        m_maindialog->m_cardList[player+CARDLIST_LEFTPLAYER_OUTCARD].addCard(cards);
+        m_maindialog->m_cardList[player].DeleteCardList();
         biggestPlayer = player;
+        lastPlayerCards = cards;
     }
 }

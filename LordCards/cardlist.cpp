@@ -106,7 +106,15 @@ void CardList::ShowCard()
             }
             break;
         case CARDLIST_LEFTPLAYER_OUTCARD:
-
+            m_beginX = 70+80+50;
+            m_beginY = 170+10;
+            for(auto card : m_cardlist)
+            {
+                card->setCardPositive(true);
+                card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
+                card->raise();
+                card->show();
+            }
             break;
         case CARDLIST_MIDPLAYER_OUTCARD:
             m_beginX = 1000/2 - (Card_Width + (m_cardlist.size()-1)*CARD_SHOW_WIDTH)/2;
@@ -126,7 +134,15 @@ void CardList::ShowCard()
             break;
             break;
         case CARDLIST_RIGHTPLAYER_OUTCARD:
-
+            m_beginX = 800-(Card_Width+(m_cardlist.size()-1)*CARD_SHOW_WIDTH);
+            m_beginY = 170+10;
+            for(auto card : m_cardlist)
+            {
+                card->setCardPositive(true);
+                card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
+                card->raise();
+                card->show();
+            }
             break;
         default:
             break;

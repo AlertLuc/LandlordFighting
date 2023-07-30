@@ -155,7 +155,7 @@ void MainDialog::slot_startOneGamg()
 //    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
 //    m_cardList[CARDLIST_MIDPLAYER].SortCard();
 //    m_cardList[CARDLIST_RIGHTPLAYER].SortCard();
-    m_playround.startRound(CARDLIST_MIDPLAYER);
+    m_playround.startRound(CARDLIST_LEFTPLAYER);
 
 }
 

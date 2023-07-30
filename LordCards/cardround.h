@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include"card.h"
+#include"aiplaycard.h"
 class MainDialog;
 class Cardround : public QObject
 {

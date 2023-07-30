@@ -12,6 +12,7 @@ RC_ICONS += ico/myico.ico
 QT += widgets
 
 SOURCES += \
+    aiplaycard.cpp \
     card.cpp \
     cardlist.cpp \
     cardround.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     rulers.cpp
 
 HEADERS += \
+    aiplaycard.h \
     card.h \
     cardlist.h \
     cardround.h \
