@@ -1,12 +1,5 @@
 #include "aiplaycard.h"
-#include "map"
 #include <rulers.h>
-
-AIPlayCard::AIPlayCard()
-{
-
-}
-
 int AIPlayCard::findSmallestCards(QList<Card *> &cards)
 {
     for(Card* card: cards)
@@ -166,7 +159,7 @@ int AIPlayCard::findStraightPair(QList<Card *> &cards)
         if(vec[i]+1 == vec[i+1])count++;
         else
         {
-            if(count >=3 && count >maxLen)
+            if(count >= 3 && count > maxLen)
             {
                 maxLen = count;
                 vecBeginToEnd = std::vector<int>{begin, vec[i]};
@@ -212,7 +205,7 @@ int AIPlayCard::findPlaneWithOne(QList<Card *> &cards)
 {
     std::map<int, int>mapPointCount;
     for(Card* card: cards){
-        if(card->m_point == Card_2||card->m_point ==Card_SmallKing||card->m_point == Card_BigKing)continue;
+        if(card->m_point == Card_2 || card->m_point == Card_SmallKing || card->m_point == Card_BigKing)continue;
         mapPointCount[card->m_point] += 1;
     }
     std::vector<int>vec;
@@ -251,7 +244,7 @@ int AIPlayCard::findPlaneWithPair(QList<Card *> &cards)
 {
     std::map<int, int>mapPointCount;
     for(Card* card: cards){
-        if(card->m_point == Card_2||card->m_point ==Card_SmallKing||card->m_point == Card_BigKing)continue;
+        if(card->m_point == Card_2||card->m_point == Card_SmallKing||card->m_point == Card_BigKing)continue;
         mapPointCount[card->m_point] += 1;
     }
     std::vector<int>vec;
@@ -566,8 +559,7 @@ int AIPlayCard::findBeatBySameType(QList<Card *> &cardInHand, QList<Card *> &car
         selected = 0;
         break;
     case FOUR_WITH_TWO:
-
-    break;
+        break;
     case SINGLE:
         selected = findSingle(cardInHand, cardLastPlayer.back()->m_point);
         break;
@@ -620,8 +612,7 @@ int AIPlayCard::findBeatBySameType(QList<Card *> &cardInHand, QList<Card *> &car
         selected = findPair(cardInHand, cardLastPlayer.back()->m_point);
         break;
     case FOUR_WITH_TWO_PAIR:
-
-    break;
+        break;
     case PLANE:
         selected = findPlane(cardInHand, cardLastPlayer.back()->m_point);
         break;
@@ -660,17 +651,14 @@ int AIPlayCard::findBeatBySameType(QList<Card *> &cardInHand, QList<Card *> &car
         }
 
     }
-
-    break;
+        break;
     case BOMB:
         selected = 0;
-    break;
+        break;
     case KINGBOMB:
         selected = 0;
-    break;
-
+        break;
     }
-
 }
 
 int AIPlayCard::findStraight(QList<Card *> &cards, int point, int len)
@@ -716,7 +704,6 @@ int AIPlayCard::findStraight(QList<Card *> &cards, int point, int len)
             count = 1;
         }
     }
-
     return 0;
 }
 
@@ -1048,8 +1035,13 @@ int AIPlayCard::findPair(QList<Card *> &cards, int point)
 
 int AIPlayCard::findSingle(QList<Card *> &cards, int point)
 {
+    QList<Card*> newCards = cards;
+    if(cards.size()>=5)
+    {
+        while(removeStraitht(newCards));
+    }
     std::map<int, int>mapPointCount;
-    for(Card* card: cards){
+    for(Card* card: newCards){
         if(card->m_point > point)
         mapPointCount[card->m_point] += 1;
     }
@@ -1065,7 +1057,7 @@ int AIPlayCard::findSingle(QList<Card *> &cards, int point)
     if(single == -1){
         if(point < Card_2)
         {
-            for(Card*card: cards)
+            for(Card*card: newCards)
             {
                 if(card->m_point == Card_2)
 
@@ -1075,7 +1067,7 @@ int AIPlayCard::findSingle(QList<Card *> &cards, int point)
         }
         return 0;
     }
-    for(Card* card:cards)
+    for(Card* card:newCards)
     {
         if(card->m_point == single)
         {
@@ -1083,4 +1075,82 @@ int AIPlayCard::findSingle(QList<Card *> &cards, int point)
         }
     }
     return 1;
+}
+
+bool AIPlayCard::removeStraitht(QList<Card *> &cards)
+{
+    //
+
+    std::map<int, Card*>mapPointCard;
+    for(Card* card: cards)
+    {
+        if(card->m_point == Card_2 || card->m_point == Card_SmallKing
+            || card->m_point == Card_BigKing) continue;
+        mapPointCard[card->m_point] = card;
+    }
+    std::vector<int> vec;
+    for(std::pair<int, Card*>p : mapPointCard)
+    {
+        vec.push_back(p.first);
+    }
+    int n = vec.size();
+    if(n < 5)return false;
+    int count = 1;
+    int begin = vec[0];
+
+    std::vector<int> vecBeginToEnd(2, 0);
+    for(int i = 0; i< n- 1; ++i)
+    {
+        if(vec[i] + 1 == vec[i+1])
+        {
+            count++;
+        }
+        else{
+            if(count >= 5 )
+            {
+                vecBeginToEnd = std::vector<int>{begin, vec[i]};
+                for(int j = vecBeginToEnd[1]; j >= vecBeginToEnd[0]; --j)
+                {
+                    Card* card = mapPointCard[j];
+                    for(auto ite = cards.begin();ite != cards.end(); )
+                    {
+                        if(card == *ite)
+                        {
+                            ite = cards.erase(ite);
+                            break;
+                        }
+                        else
+                        {
+                            ++ite;
+                        }
+                    }
+                }
+                    return true;
+            }
+            begin = vec[i+1];
+            count = 1;
+        }
+    }
+    if(count >= 5)
+    {
+        vecBeginToEnd = std::vector<int>{begin, vec[n-1]};
+        for(int j = vecBeginToEnd[1]; j >= vecBeginToEnd[0]; --j)
+        {
+            Card* card = mapPointCard[j];
+            for(auto ite = cards.begin();ite != cards.end(); )
+            {
+                    if(card == *ite)
+                    {
+                    ite = cards.erase(ite);
+                    break;
+                    }
+                    else
+                    {
+                    ++ite;
+                    }
+            }
+        }
+        return true;
+    }
+    return false;
 }

@@ -4,7 +4,6 @@
 #include "cardlist.h"
 #include "QDebug"
 #include <synchapi.h>
-#include "rulers.h"
 #include "cardsound.h"
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
@@ -12,10 +11,8 @@ MainDialog::MainDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // 最大与最小化
     this->setWindowFlags(Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
 
-    // 标题
     this->setWindowTitle("斗地主");
 
     ui->sw_page->setCurrentIndex(0);
@@ -31,6 +28,9 @@ MainDialog::MainDialog(QWidget *parent)
 
 
     CardSound::playBGM();
+    m_lbPassArr[CARDLIST_LEFTPLAYER] = ui->lb_leftPess;
+    m_lbPassArr[CARDLIST_MIDPLAYER] = ui->lb_midPess;
+    m_lbPassArr[CARDLIST_RIGHTPLAYER] = ui->lb_rightPess;
 }
 
 MainDialog::~MainDialog()
@@ -80,7 +80,7 @@ void MainDialog::slot_startOneGamg()
 //        //显示牌
 //        card->show();
 //    }
-
+    slot_hideAllPass();
     // 出牌叫地主隐藏
     slot_showCallLord(false);
     slot_showPlayCards(false);
@@ -251,5 +251,13 @@ void MainDialog::slot_showCallLord(bool flag)
 void MainDialog::on_pb_pass_clicked()
 {
     m_playround.slot_midPlayerPass();
+}
+
+void MainDialog::slot_hideAllPass()
+{
+    for(QLabel* lb : m_lbPassArr)
+    {
+        lb->hide();
+    }
 }
 

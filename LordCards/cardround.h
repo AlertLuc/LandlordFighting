@@ -1,10 +1,8 @@
 #ifndef CARDROUND_H
 #define CARDROUND_H
-
 #include <QObject>
-
-#include"card.h"
-#include"aiplaycard.h"
+#include<card.h>
+#include<aiplaycard.h>
 class MainDialog;
 class Cardround : public QObject
 {
@@ -14,10 +12,8 @@ public:
     void initRound();
     void delaySecond(int msec);
 signals:
-
 public:
     // 叫地主
-
     // 出牌阶段
     void startRound(int player);
     void turnPlayer(int player);
@@ -26,18 +22,12 @@ public:
     void slot_computerRound(int player);
     void slot_computerPlayCards(int player);
     // 结算
-
     // 出牌
     int biggestPlayer;
     int currentPlayer;
     // 上一个出牌人牌组
     QList<Card*>lastPlayerCards;
-
-
-
 private:
     MainDialog* m_maindialog;
-
 };
-
 #endif // CARDROUND_H

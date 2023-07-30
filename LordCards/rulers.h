@@ -1,9 +1,7 @@
 #ifndef RULERS_H
 #define RULERS_H
-#include "cardlist.h"
-
+#include <cardlist.h>
 using namespace std;
-
 enum CARD_TYPE{
     CARDTYPE_NONE,//啥也不是
     SINGLE,//单张
@@ -20,15 +18,11 @@ enum CARD_TYPE{
     BOMB,//炸弹
     KINGBOMB,//王炸
 };
-
 class Rulers
 {
 public:
-    Rulers();
-
     // 获得牌型
     static int getCardtype(QList<Card*> &cards);
-
     //是不是顺子
     static bool isStraight(QList<Card*> &cards);
     //飞机
@@ -51,5 +45,4 @@ public:
     static bool canPlayCards(QList<Card*> &cardInHand, QList<Card*> &cardLastPlayer);
     friend class MainDialog;
 };
-
 #endif // RULERS_H

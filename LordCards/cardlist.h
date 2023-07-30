@@ -22,7 +22,6 @@ class CardList : public QObject
     Q_OBJECT
 public:
     explicit CardList(QObject *parent = nullptr);
-
     // 赋值类型
     void setCardListType(int type);
     // 添加牌

@@ -1,10 +1,6 @@
 #include "cardsound.h"
 #include "QString"
 #include <QTimer>
-CardSound::CardSound()
-{
-
-}
 
 void CardSound::palySound(int type)
 {

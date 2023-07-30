@@ -1,11 +1,9 @@
 #ifndef AIPLAYCARD_H
 #define AIPLAYCARD_H
 #include<card.h>
-
 class AIPlayCard
 {
 public:
-    AIPlayCard();
     static int findSmallestCards(QList<Card*>& cards);
     static int findStraight(QList<Card*>& cards);
     static int findStraightPair(QList<Card*>& cards);
@@ -34,6 +32,7 @@ public:
     static int findTriple(QList<Card*>& cards, int point);
     static int findPair(QList<Card*>& cards, int point);
     static int findSingle(QList<Card*>& cards, int point);
+    static bool removeStraitht(QList<Card*>& cards);
 };
 
 #endif // AIPLAYCARD_H

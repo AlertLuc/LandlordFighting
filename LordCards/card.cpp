@@ -9,7 +9,6 @@ Card::Card(int point, int suit, QWidget *parent) :
     ui(new Ui::Card)
 {
     ui->setupUi(this);
-
     init(point, suit);
 }
 
@@ -80,10 +79,8 @@ void Card::init(int point, int suit)
 void Card::paintEvent(QPaintEvent *event)
 {
     QPainter paint(this);
-
     int x = 0;
     int y = 0;
-
     if(m_isPositive)
     {
         if(m_point == Card_SmallKing)

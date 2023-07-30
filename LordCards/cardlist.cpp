@@ -2,15 +2,10 @@
 #include "card.h"
 #include "QDebug"
 #include "QString"
-#include "random"
+#include <random>
 #include "QDateTime"
-
 CardList::CardList(QObject *parent)
-    : QObject{parent}
-{
-
-}
-
+    : QObject{parent}{}
 // 赋值类型
 void CardList::setCardListType(int type)
 {
@@ -30,7 +25,6 @@ void CardList::addCard(Card *card)
     }
     m_cardlist.append(card);
 }
-
 // 以列表形式添加牌
 void CardList::addCard(QList<Card *> cards)
 {
@@ -39,7 +33,6 @@ void CardList::addCard(QList<Card *> cards)
         addCard(card);
     }
 }
-
 // 显示牌堆
 void CardList::ShowCard()
 {
@@ -148,7 +141,6 @@ void CardList::ShowCard()
             break;
     }
 }
-
 // 打印牌堆
 void CardList::PrintCard()
 {
@@ -201,7 +193,6 @@ void CardList::PrintCard()
     }
     qDebug()<<str;
 }
-
 // 获取选中的列表
 QList<Card *> CardList::SelectCardList()
 {
@@ -215,7 +206,6 @@ QList<Card *> CardList::SelectCardList()
     }
     return lst;
 }
-
 // 删除选中的列表
 void CardList::DeleteCardList()
 {
@@ -233,7 +223,6 @@ void CardList::DeleteCardList()
         }
     }
 }
-
 // 从牌堆选一张牌
 Card *CardList::SelectOneCard()
 {
@@ -243,14 +232,12 @@ Card *CardList::SelectOneCard()
     }
     return nullptr;
 }
-
 // 洗牌
 void CardList::shuffle()
 {
     qint64 seed = QDateTime::currentSecsSinceEpoch();
     std::shuffle(m_cardlist.begin(), m_cardlist.end(), std::default_random_engine(seed));
 }
-
 // 排序
 void CardList::SortCard()
 {
@@ -259,7 +246,6 @@ void CardList::SortCard()
         return getCardValue(a) > getCardValue(b);
     });
 }
-
 // 获取牌权重
 int CardList::getCardValue(Card *card)
 {

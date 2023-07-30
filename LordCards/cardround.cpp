@@ -3,10 +3,7 @@
 #include"cardsound.h"
 #include"QCoreApplication"
 Cardround::Cardround(MainDialog *p,QObject *parent)
-    : QObject(parent),m_maindialog(p)
-{
-
-}
+    : QObject(parent),m_maindialog(p){}
 
 void Cardround::initRound()
 {
@@ -17,14 +14,17 @@ void Cardround::initRound()
 
 void Cardround::delaySecond(int msec)
 {
-    do{_sleep(10);
-    QCoreApplication::processEvents(QEventLoop::AllEvents,10);
-        msec -= 20;}while(msec >= 0);
+    do{
+        _sleep(10);
+        QCoreApplication::processEvents(QEventLoop::AllEvents,10);
+        msec -= 20;
+    }while(msec >= 0);
 }
 
 void Cardround::startRound(int player)
 {
-    currentPlayer = player;
+    m_maindialog->slot_hideAllPass();
+//    currentPlayer = player;
     // 清除所有玩家外面手牌
     m_maindialog->slot_delectPlayerOutCard(player);
     // 上一个玩家牌组
@@ -32,8 +32,6 @@ void Cardround::startRound(int player)
     lastPlayerCards.clear();
 
     // 当前玩家赋值
-
-
     if(currentPlayer == CARDLIST_MIDPLAYER)
     {
         m_maindialog->slot_showPlayCards(true);
@@ -52,7 +50,7 @@ void Cardround::turnPlayer(int player)
         startRound(player);
         return;
     }
-
+    m_maindialog->m_lbPassArr[currentPlayer]->hide();
     m_maindialog->slot_delectPlayerOutCard(player);
 
     if(currentPlayer == CARDLIST_MIDPLAYER)
@@ -86,7 +84,6 @@ void Cardround::slot_midPlayerPlayCards()
         turnPlayer(CARDLIST_MIDPLAYER+1);
     }
 }
-
 void Cardround::slot_midPlayerPass()
 {
     if(biggestPlayer == CARDLIST_MIDPLAYER)
@@ -95,6 +92,7 @@ void Cardround::slot_midPlayerPass()
     }
     m_maindialog->slot_showPlayCards(false);
     CardSound::palySound(SOUND_PASS);
+    m_maindialog->m_lbPassArr[CARDLIST_MIDPLAYER]->show();
     turnPlayer(CARDLIST_MIDPLAYER+1);
 }
 
@@ -105,11 +103,9 @@ void Cardround::slot_computerRound(int player)
     // 切换下一个玩家
     turnPlayer((player+1)%3);
 }
-
 void Cardround::slot_computerPlayCards(int player)
 {
     QList<Card*> cards;
-
 //    if(AIPlayCard::findSmallestCards(m_maindialog->m_cardList[player].m_cardlist) != 0){
 //        cards = m_maindialog->m_cardList[player].SelectCardList();
 //    }
@@ -118,10 +114,10 @@ void Cardround::slot_computerPlayCards(int player)
     if(cards.size() == 0)
     {
         CardSound::palySound(SOUND_PASS);
+        m_maindialog->m_lbPassArr[player]->show();
     }else
     {
 //        delaySecond(2000);
-
         CardSound::playCardSound(cards);
         m_maindialog->m_cardList[player+CARDLIST_LEFTPLAYER_OUTCARD].addCard(cards);
         m_maindialog->m_cardList[player].DeleteCardList();

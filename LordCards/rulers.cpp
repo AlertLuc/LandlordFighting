@@ -1,10 +1,6 @@
 #include "rulers.h"
 #include <map>
 
-Rulers::Rulers()
-{
-
-}
 int Rulers::getCardtype(QList<Card *> &cards)
 {
     int n = cards.count();
@@ -64,11 +60,8 @@ int Rulers::getCardtype(QList<Card *> &cards)
     else if(n == 8){
 
         if(isStraight(cards))return STRAIGHT;
-
         if(isStraightPair(cards))return STRAIGHT;
-
         if(isFourWithTwoPair(cards))return FOUR_WITH_TWO_PAIR;
-
         if(isPlaneWithWing(cards))return PLANE_WITH_WING;
 
     }
@@ -431,6 +424,7 @@ bool Rulers::compareSameTypeCards(QList<Card *> &cards1, QList<Card *> &cards2, 
                 break;
 }
 }
+
 bool Rulers::canBeat(QList<Card *> &cardInHand, QList<Card *> &cardLastPlayer)
 {
     return compareCards(cardInHand, cardLastPlayer);

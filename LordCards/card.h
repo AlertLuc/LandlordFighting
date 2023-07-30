@@ -1,6 +1,5 @@
 #ifndef CARD_H
 #define CARD_H
-
 #include <QWidget>
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -59,11 +58,9 @@ class Card : public QWidget
 
 public:
     explicit Card(int point, int suit,QWidget *parent = nullptr);
-
     // 数字初始化牌
     // 按照3-k A 2 花色*4
     explicit Card(int number, QWidget *parent = nullptr);
-
     ~Card();
     // 设置是否选择
     void setSelected();
