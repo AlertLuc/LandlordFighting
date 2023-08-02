@@ -7,9 +7,17 @@ Cardround::Cardround(MainDialog *p,QObject *parent)
 
 void Cardround::initRound()
 {
+
+    // 叫地主
+    beginCallLord = CARDLIST_LORD;
+    isEndCall = false;
+    lordPlayer = CARDLIST_LORD;
+
+    //出牌
     biggestPlayer = CARDLIST_LORD;
     currentPlayer = CARDLIST_LORD;
     lastPlayerCards.clear();
+
 }
 
 void Cardround::delaySecond(int msec)
@@ -19,6 +27,121 @@ void Cardround::delaySecond(int msec)
         QCoreApplication::processEvents(QEventLoop::AllEvents,10);
         msec -= 20;
     }while(msec >= 0);
+}
+
+void Cardround::decideBeginLord()
+{
+    // 随机
+    beginCallLord = qrand()%3;
+
+    callLordGiveUp(beginCallLord);
+
+}
+
+void Cardround::turnCallLord(int player)
+{
+    // 当前玩家
+    currentPlayer = player;
+
+    if(player == (beginCallLord +1)%3)
+    {
+        if(isEndCall)
+        {
+            //都不叫
+
+            if(biggestPlayer == CARDLIST_LORD)
+            {
+                delaySecond(1000);
+                m_maindialog->on_pb_start_clicked();
+                return;
+            }
+            lordPlayer = biggestPlayer;
+            // 加三张牌
+            m_maindialog->slot_lordAddLordCards(lordPlayer);
+            startRound(biggestPlayer);
+            return;
+        }
+
+    }
+
+    // 判断是否结束
+    if(biggestPlayer == player)
+    {
+        turnCallLord((player+1) % 3);
+        return;
+    }
+
+    callLordGiveUp(player);
+}
+
+void Cardround::callLordGiveUp(int player)
+{
+    currentPlayer = player;
+
+    if(player == CARDLIST_MIDPLAYER)
+    {
+        m_maindialog->slot_showCallLord(true);
+
+    }
+    else{
+        delaySecond(2000);
+        slot_computerCallLord(player);
+    }
+}
+
+void Cardround::slot_midPlayerCallLord()
+{
+    // 叫地主
+    if(biggestPlayer)
+    {
+        CardSound::palySound(SOUND_JIAODIZHU);
+    }
+    else{
+        CardSound::palySound(SOUND_ROBLORD);
+    }
+
+    biggestPlayer = CARDLIST_MIDPLAYER;
+
+    m_maindialog->slot_showCallLord(false);
+
+    // 叫地主显示
+
+
+    // 切换到其他玩家
+    turnCallLord(CARDLIST_MIDPLAYER + 1);
+}
+
+void Cardround::slot_midPlayerNoCall()
+{
+    // 播放声音
+    CardSound::palySound(SOUND_NOCALL);
+
+    m_maindialog->slot_showCallLord(false);
+
+    turnCallLord(CARDLIST_MIDPLAYER + 1);
+}
+
+void Cardround::slot_computerCallLord(int player)
+{
+    // 电脑叫地主
+    bool res = AIPlayCard::isCallLord(m_maindialog->m_cardList[player].m_cardlist);
+    if(res){
+        if(biggestPlayer == CARDLIST_LORD)
+        {
+            CardSound::palySound(SOUND_JIAODIZHU);
+        }
+        else
+        {
+             CardSound::palySound(SOUND_ROBLORD);
+        }
+        biggestPlayer = player;
+    }
+    else
+    {
+        CardSound::palySound(SOUND_NOCALL);
+    }
+
+    turnCallLord((player + 1)%3);
 }
 
 void Cardround::startRound(int player)

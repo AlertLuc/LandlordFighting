@@ -35,6 +35,12 @@ private slots:
 
     void slot_hideAllPass();
 
+    void on_pb_callLord_clicked();
+
+    void on_pb_noCall_clicked();
+
+    void slot_lordAddLordCards(int player);
+
 private:
     Ui::MainDialog *ui;
     CardList m_cardList[CARDLIST_TYPE_COUNT];

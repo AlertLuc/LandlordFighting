@@ -33,6 +33,7 @@ public:
     static int findPair(QList<Card*>& cards, int point);
     static int findSingle(QList<Card*>& cards, int point);
     static bool removeStraitht(QList<Card*>& cards);
+    static bool isCallLord(QList<Card*>& cardInHand);
 };
 
 #endif // AIPLAYCARD_H

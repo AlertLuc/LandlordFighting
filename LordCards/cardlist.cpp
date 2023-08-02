@@ -230,6 +230,14 @@ Card *CardList::SelectOneCard()
     }
     return nullptr;
 }
+
+void CardList::setAllCardsPositive(bool flag)
+{
+    for(Card* card: m_cardlist)
+    {
+        card->setCardPositive(flag);
+    }
+}
 // 洗牌
 void CardList::shuffle()
 {

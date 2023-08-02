@@ -1154,3 +1154,25 @@ bool AIPlayCard::removeStraitht(QList<Card *> &cards)
     }
     return false;
 }
+
+bool AIPlayCard::isCallLord(QList<Card *> &cardInHand)
+{
+    // 有炸
+    int selected = findBomb(cardInHand, -1);
+    if(selected == 0)
+    {
+        selected = findKingBomb(cardInHand);
+        if(selected == 0)
+        {
+            return false;
+        }
+    }
+
+    for(Card*card:cardInHand)
+    {
+        card->setUnSelected();
+
+    }
+
+    return true;
+}

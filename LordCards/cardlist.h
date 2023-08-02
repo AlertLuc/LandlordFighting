@@ -38,6 +38,10 @@ public:
     void DeleteCardList();
     // 从牌堆选一张牌
     Card* SelectOneCard();
+
+
+    void setAllCardsPositive(bool flag);
+
     // 洗牌
     void shuffle();
     // 排序

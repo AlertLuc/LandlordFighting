@@ -5,6 +5,7 @@
 #include "QDebug"
 #include <synchapi.h>
 #include "cardsound.h"
+#include<QDateTime>
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainDialog),m_playround(this, parent)
@@ -18,6 +19,9 @@ MainDialog::MainDialog(QWidget *parent)
     ui->sw_page->setCurrentIndex(0);
 
     slot_setBackGroud();
+
+    // 随机种子
+    qsrand(QDateTime::currentSecsSinceEpoch());
 
     for(int i = 0; i< CARDLIST_TYPE_COUNT; ++i)
     {
@@ -80,7 +84,10 @@ void MainDialog::slot_startOneGamg()
 //        //显示牌
 //        card->show();
 //    }
+    m_playround.initRound();
+
     slot_hideAllPass();
+
     // 出牌叫地主隐藏
     slot_showCallLord(false);
     slot_showPlayCards(false);
@@ -150,12 +157,14 @@ void MainDialog::slot_startOneGamg()
     qDebug()<<"";
     m_cardList[CARDLIST_RIGHTPLAYER].PrintCard();
 
-    sound.stop();
+    m_playround.decideBeginLord();
+
+//    sound.stop();
     // 排序
 //    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
 //    m_cardList[CARDLIST_MIDPLAYER].SortCard();
 //    m_cardList[CARDLIST_RIGHTPLAYER].SortCard();
-    m_playround.startRound(CARDLIST_LEFTPLAYER);
+//    m_playround.startRound(CARDLIST_LEFTPLAYER);
 
 }
 
@@ -259,5 +268,31 @@ void MainDialog::slot_hideAllPass()
     {
         lb->hide();
     }
+}
+
+
+void MainDialog::on_pb_callLord_clicked()
+{
+    m_playround.slot_midPlayerCallLord();
+}
+
+
+void MainDialog::on_pb_noCall_clicked()
+{
+    m_playround.slot_midPlayerNoCall();
+}
+
+void MainDialog::slot_lordAddLordCards(int player)
+{
+    for(Card* card : m_cardList[CARDLIST_LORD].m_cardlist)
+    {
+        Card* newCard = new Card(card->m_point,card->m_suit,this->ui->page_game);
+
+        m_cardList[player].addCard(newCard);
+
+    }
+    m_cardList[player].SortCard();
+
+    m_cardList[CARDLIST_LORD].setAllCardsPositive(true);
 }
 
