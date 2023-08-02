@@ -233,8 +233,9 @@ Card *CardList::SelectOneCard()
 
 void CardList::setAllCardsPositive(bool flag)
 {
-    for(Card* card: m_cardlist)
+    for(auto card: m_cardlist)
     {
+        qDebug()<<" "<<flag;
         card->setCardPositive(flag);
     }
 }

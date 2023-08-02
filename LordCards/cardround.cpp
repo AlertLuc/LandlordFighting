@@ -2,6 +2,7 @@
 #include"maindialog.h"
 #include"cardsound.h"
 #include"QCoreApplication"
+#include <QRandomGenerator>
 Cardround::Cardround(MainDialog *p,QObject *parent)
     : QObject(parent),m_maindialog(p){}
 
@@ -32,10 +33,8 @@ void Cardround::delaySecond(int msec)
 void Cardround::decideBeginLord()
 {
     // 随机
-    beginCallLord = qrand()%3;
-
+    beginCallLord = 1;
     callLordGiveUp(beginCallLord);
-
 }
 
 void Cardround::turnCallLord(int player)
@@ -43,7 +42,7 @@ void Cardround::turnCallLord(int player)
     // 当前玩家
     currentPlayer = player;
 
-    if(player == (beginCallLord +1)%3)
+    if(player == (beginCallLord + 1) % 3)
     {
         if(isEndCall)
         {
@@ -58,12 +57,15 @@ void Cardround::turnCallLord(int player)
             lordPlayer = biggestPlayer;
             // 加三张牌
             m_maindialog->slot_lordAddLordCards(lordPlayer);
+
+
+            delaySecond(1000);
             startRound(biggestPlayer);
             return;
         }
 
     }
-
+    isEndCall = true;
     // 判断是否结束
     if(biggestPlayer == player)
     {
@@ -84,7 +86,7 @@ void Cardround::callLordGiveUp(int player)
 
     }
     else{
-        delaySecond(2000);
+        delaySecond(100);
         slot_computerCallLord(player);
     }
 }
@@ -92,7 +94,7 @@ void Cardround::callLordGiveUp(int player)
 void Cardround::slot_midPlayerCallLord()
 {
     // 叫地主
-    if(biggestPlayer)
+    if(biggestPlayer == CARDLIST_LORD)
     {
         CardSound::palySound(SOUND_JIAODIZHU);
     }
@@ -147,7 +149,7 @@ void Cardround::slot_computerCallLord(int player)
 void Cardround::startRound(int player)
 {
     m_maindialog->slot_hideAllPass();
-//    currentPlayer = player;
+    currentPlayer = player;
     // 清除所有玩家外面手牌
     m_maindialog->slot_delectPlayerOutCard(player);
     // 上一个玩家牌组
@@ -170,7 +172,9 @@ void Cardround::turnPlayer(int player)
     currentPlayer = player;
     if(biggestPlayer == player)
     {
+        delaySecond(1000);
         startRound(player);
+
         return;
     }
     m_maindialog->m_lbPassArr[currentPlayer]->hide();

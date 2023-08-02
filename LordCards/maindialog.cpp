@@ -284,6 +284,8 @@ void MainDialog::on_pb_noCall_clicked()
 
 void MainDialog::slot_lordAddLordCards(int player)
 {
+    m_cardList[CARDLIST_LORD].setAllCardsPositive(true);
+
     for(Card* card : m_cardList[CARDLIST_LORD].m_cardlist)
     {
         Card* newCard = new Card(card->m_point,card->m_suit,this->ui->page_game);
@@ -293,6 +295,6 @@ void MainDialog::slot_lordAddLordCards(int player)
     }
     m_cardList[player].SortCard();
 
-    m_cardList[CARDLIST_LORD].setAllCardsPositive(true);
+
 }
 
