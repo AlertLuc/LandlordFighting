@@ -3,17 +3,15 @@
 #include"cardsound.h"
 #include"QCoreApplication"
 #include "rulers.h"
-#include"QLabel"
+#include "QLabel"
+#include <QObject>
 
 
-PlayRound::PlayRound(main_dialog *p,QObject *parent)
-    : QObject(parent),m_mainDialog(p)
+PlayRound::PlayRound(main_dialog *p,QObject *parent) : QObject(parent),m_mainDialog(p)
 {
-	connect(&m_timerArray[CARDLIST_LEFTPLAYER], SIGNAL(timeout()), this, SLOT(slot_play_card_time_out()));
-
-    connect(&m_timerArray[CARDLIST_MIDPLAYER], SIGNAL(timeout()), this, SLOT(slot_play_card_time_out()));
-
-    connect(&m_timerArray[CARDLIST_RIGHTPLAYER], SIGNAL(timeout()), this, SLOT(slot_play_card_time_out()));
+	connect(&m_timerArray[CARDLIST_LEFTPLAYER], &QTimer::timeout, this, &PlayRound::slot_play_card_time_out);
+    connect(&m_timerArray[CARDLIST_MIDPLAYER], &QTimer::timeout, this, &PlayRound::slot_play_card_time_out);
+    connect(&m_timerArray[CARDLIST_RIGHTPLAYER], &QTimer::timeout, this, &PlayRound::slot_play_card_time_out);
 
 }
 

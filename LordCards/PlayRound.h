@@ -3,7 +3,7 @@
 #include <QObject>
 #include<card.h>
 #include<aiplaycard.h>
-#include<QTime>
+#include<QTimer>
 class main_dialog;
 class PlayRound : public QObject
 {
@@ -64,7 +64,7 @@ public:
 
     int lordPlayer;
 
-    QTime m_timerArray[3];
+    QTimer m_timerArray[3];
 
 private:
     main_dialog* m_mainDialog;
