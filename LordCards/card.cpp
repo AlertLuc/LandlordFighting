@@ -2,7 +2,7 @@
 #include "ui_card.h"
 #include "QPainter"
 
-QImage Card::m_img = QImage(":/image/card.png");
+QImage Card::m_img = QImage("./image/card.png");
 
 Card::Card(int point, int suit, QWidget *parent) :
     QWidget(parent),

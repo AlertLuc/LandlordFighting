@@ -77,6 +77,7 @@ int AIPlayCard::findSmallestCards(QList<Card *> &cards)
     {
         return selected;
     }
+    return 0;
 }
 
 int AIPlayCard::findStraight(QList<Card *> &cards)
@@ -204,7 +205,7 @@ int AIPlayCard::findStraightPair(QList<Card *> &cards)
 int AIPlayCard::findPlaneWithOne(QList<Card *> &cards)
 {
     std::map<int, int>mapPointCount;
-    for(Card* card: cards){
+    for(const Card* card: cards){
         if(card->m_point == Card_2 || card->m_point == Card_SmallKing || card->m_point == Card_BigKing)continue;
         mapPointCount[card->m_point] += 1;
     }
@@ -349,7 +350,7 @@ int AIPlayCard::findTripleWithOne(QList<Card *> &cards)
 int AIPlayCard::findTripleWithPair(QList<Card *> &cards)
 {
     std::map<int, int>mapPointCount;
-    for(Card* card: cards){
+    for(const Card* card: cards){
         if(cards.size() > 6 && card->m_point == Card_2)continue;
         mapPointCount[card->m_point] += 1;
     }
@@ -509,50 +510,49 @@ int AIPlayCard::findSmallestSingle(QList<Card *> &cards)
 QList<Card *> AIPlayCard::BeatCards(QList<Card *> &cardInHand, QList<Card *> &cardLastPlayer)
 {
     QList<Card*>cards;
-    int selected = 0;
-    for(Card* card:cardInHand)
+    for(Card* card : cardInHand)
     {
         card->setUnSelected();
     }
-    if(cardLastPlayer.size() == 0)
+    if(cardLastPlayer.empty())
     {
         findSmallestCards(cardInHand);
     }
     else
     {
-        if(KINGBOMB == Rulers::getCardtype(cardLastPlayer))
+	    if(KINGBOMB == Rulers::get_card_type(cardLastPlayer))
             return cards;
-        selected = findBeatBySameType(cardInHand, cardLastPlayer);
-        if(selected ==0)
+        int selected = findBeatBySameType(cardInHand, cardLastPlayer);
+        if(selected == 0)
         {
-            if(BOMB==Rulers::getCardtype(cardLastPlayer))
+            if(Rulers::get_card_type(cardLastPlayer) == BOMB)
             {
                 selected = findBomb(cardInHand, cardLastPlayer.back()->m_point);
             }
             else{
                 selected = findBomb(cardInHand, -1);
             }
-            if(selected ==0)
+            if(selected == 0)
             {
                 selected = findKingBomb(cardInHand);
                 if(selected == 0)
                 {
                     return cards;
                 }
-
             }
         }
     }
-    for(Card* card : cardInHand)
+    for (Card* card : cardInHand)
     {
-        if(card->m_isClicked)
+        if (card->m_isClicked)
             cards.append(card);
     }
+    return cards;
 }
 
 int AIPlayCard::findBeatBySameType(QList<Card *> &cardInHand, QList<Card *> &cardLastPlayer)
 {
-    int type = Rulers::getCardtype(cardLastPlayer);
+	const int type = Rulers::get_card_type(cardLastPlayer);
     int selected = 0;
     switch (type) {
     case CARDTYPE_NONE:
@@ -658,7 +658,9 @@ int AIPlayCard::findBeatBySameType(QList<Card *> &cardInHand, QList<Card *> &car
     case KINGBOMB:
         selected = 0;
         break;
+	default: ;
     }
+    return type;
 }
 
 int AIPlayCard::findStraight(QList<Card *> &cards, int point, int len)
@@ -1038,7 +1040,7 @@ int AIPlayCard::findSingle(QList<Card *> &cards, int point)
     QList<Card*> newCards = cards;
     if(cards.size()>=5)
     {
-        while(removeStraitht(newCards));
+        while(remove_straitht(newCards));
     }
     std::map<int, int>mapPointCount;
     for(Card* card: newCards){
@@ -1077,7 +1079,7 @@ int AIPlayCard::findSingle(QList<Card *> &cards, int point)
     return 1;
 }
 
-bool AIPlayCard::removeStraitht(QList<Card *> &cards)
+bool AIPlayCard::remove_straitht(QList<Card *> &cards)
 {
     //
 
@@ -1139,15 +1141,15 @@ bool AIPlayCard::removeStraitht(QList<Card *> &cards)
             Card* card = mapPointCard[j];
             for(auto ite = cards.begin();ite != cards.end(); )
             {
-                    if(card == *ite)
-                    {
+                if(card == *ite)
+                {
                     ite = cards.erase(ite);
                     break;
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     ++ite;
-                    }
+                }
             }
         }
         return true;

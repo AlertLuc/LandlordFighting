@@ -1,7 +1,6 @@
 #ifndef RULERS_H
 #define RULERS_H
 #include <cardlist.h>
-using namespace std;
 enum CARD_TYPE{
     CARDTYPE_NONE,//啥也不是
     SINGLE,//单张
@@ -22,27 +21,38 @@ class Rulers
 {
 public:
     // 获得牌型
-    static int getCardtype(QList<Card*> &cards);
+    static int get_card_type(QList<Card*> &cards);
+
     //是不是顺子
-    static bool isStraight(QList<Card*> &cards);
+    static bool is_straight(QList<Card*> &cards);
+
     //飞机
-    static bool isPlane(QList<Card*> &cards);
+    static bool is_plane(QList<Card*> &cards);
+
     //飞机带翅膀
-    static bool isPlaneWithWing(QList<Card*> &cards);
+    static bool is_plane_with_wing(QList<Card*> &cards);
+
     //四带二
-    static bool isFourWithTwo(QList<Card*> &cards);
+    static bool is_four_with_two(QList<Card*> &cards);
+
     //四带两对
-    static bool isFourWithTwoPair(QList<Card*> &cards);
+    static bool is_four_with_two_pair(QList<Card*> &cards);
+
     //连对
-    static bool isStraightPair(QList<Card*> &cards);
+    static bool is_straight_pair(QList<Card*> &cards);
+
     //比较谁牌组大
-    static bool compareCards(QList<Card*>&cards1, QList<Card*>&cards2);
+    static bool compare_cards(QList<Card*>&cards1, QList<Card*>&cards2);
+
     //相同类型 比较谁牌组大
-    static bool compareSameTypeCards(QList<Card*>&cards1, QList<Card*>&cards2, int type);
+    static bool compare_same_type_cards(QList<Card*>&cards1, QList<Card*>&cards2, int type);
+
     //是否可以管上
-    static bool canBeat(QList<Card*> &cardInHand, QList<Card*> &cardLastPlayer);
+    static bool can_beat(QList<Card*> &cardInHand, QList<Card*> &cardLastPlayer);
+
     //是否能出牌
-    static bool canPlayCards(QList<Card*> &cardInHand, QList<Card*> &cardLastPlayer);
-    friend class MainDialog;
+    static bool can_play_cards(QList<Card*> &cardInHand, QList<Card*> &cardLastPlayer);
+
+    friend class main_dialog;
 };
 #endif // RULERS_H

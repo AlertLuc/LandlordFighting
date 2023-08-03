@@ -15,15 +15,17 @@ void CardList::setCardListType(int type)
 // 添加牌
 void CardList::addCard(Card *card)
 {
-    if(CARDLIST_MIDPLAYER)
+    if(m_cardListType == CARDLIST_MIDPLAYER)
     {
         card->setCardPositive(true);
     }
-    if(CARDLIST_LEFTPLAYER_OUTCARD || CARDLIST_MIDPLAYER_OUTCARD || CARDLIST_RIGHTPLAYER_OUTCARD)
+    if( m_cardListType == CARDLIST_LEFTPLAYER_OUTCARD||
+        m_cardListType == CARDLIST_MIDPLAYER_OUTCARD ||
+        m_cardListType == CARDLIST_RIGHTPLAYER_OUTCARD)
     {
         card->setCardPositive(true);
     }
-    m_cardlist.append(card);
+    m_cardList.append(card);
 }
 // 以列表形式添加牌
 void CardList::addCard(QList<Card *> cards)
@@ -41,7 +43,7 @@ void CardList::ShowCard()
         case CARDLIST_LEFTPLAYER:
             m_beginX = 70;
             m_beginY = 170;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(false);
                 card->move(m_beginX, m_beginY+(count++)*10);
@@ -50,9 +52,9 @@ void CardList::ShowCard()
             }
             break;
         case CARDLIST_MIDPLAYER:
-            m_beginX = 1000/2 - (Card_Width + (m_cardlist.size()-1)*CARD_SHOW_WIDTH)/2;
+            m_beginX = 1000/2 - (Card_Width + (m_cardList.size()-1)*CARD_SHOW_WIDTH)/2;
             m_beginY = 650 - 150;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(true);
                 card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
@@ -68,7 +70,7 @@ void CardList::ShowCard()
         case CARDLIST_RIGHTPLAYER:
             m_beginX = 850;
             m_beginY = 170;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(false);
                 card->move(m_beginX, m_beginY+(count++)*10);
@@ -79,18 +81,17 @@ void CardList::ShowCard()
         case CARDLIST_LORD:
             m_beginX = 1000/2 - (Card_Width*3 + 20*2)/2;
             m_beginY = 50;
-            for(auto card : m_cardlist)
+            for(const auto card : m_cardList)
             {
-                card->setCardPositive(false);
                 card->move(m_beginX+(count++)*(Card_Width +20),m_beginY);
                 card->raise();
                 card->show();
             }
             break;
         case CARDLIST_WHOLE:
-            m_beginX = 1000/2 - (Card_Width + (m_cardlist.size()-1)*5)/2;
+            m_beginX = 1000/2 - (Card_Width + (m_cardList.size()-1)*5)/2;
             m_beginY = 650/2 - Card_Height/2;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(false);
                 card->move(m_beginX+(count++)*5,m_beginY);
@@ -101,7 +102,7 @@ void CardList::ShowCard()
         case CARDLIST_LEFTPLAYER_OUTCARD:
             m_beginX = 70+80+50;
             m_beginY = 170+10;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(true);
                 card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
@@ -110,9 +111,9 @@ void CardList::ShowCard()
             }
             break;
         case CARDLIST_MIDPLAYER_OUTCARD:
-            m_beginX = 1000/2 - (Card_Width + (m_cardlist.size()-1)*CARD_SHOW_WIDTH)/2;
+            m_beginX = 1000/2 - (Card_Width + (m_cardList.size()-1)*CARD_SHOW_WIDTH)/2;
             m_beginY = 415 - 105;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(true);
                 card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
@@ -127,9 +128,9 @@ void CardList::ShowCard()
             break;
             break;
         case CARDLIST_RIGHTPLAYER_OUTCARD:
-            m_beginX = 800-(Card_Width+(m_cardlist.size()-1)*CARD_SHOW_WIDTH);
+            m_beginX = 800-(Card_Width+(m_cardList.size()-1)*CARD_SHOW_WIDTH);
             m_beginY = 170+10;
-            for(auto card : m_cardlist)
+            for(auto card : m_cardList)
             {
                 card->setCardPositive(true);
                 card->move(m_beginX+(count++)*CARD_SHOW_WIDTH,m_beginY);
@@ -144,7 +145,7 @@ void CardList::PrintCard()
 {
     QString str;
 
-    for(auto card : m_cardlist)
+    for(auto card : m_cardList)
     {
         if(card->m_point == Suit_SamllKing)
         {
@@ -195,7 +196,7 @@ void CardList::PrintCard()
 QList<Card *> CardList::SelectCardList()
 {
     QList<Card*> lst;
-    for(auto card : m_cardlist)
+    for(auto card : m_cardList)
     {
         if(card->m_isClicked)
         {
@@ -208,12 +209,12 @@ QList<Card *> CardList::SelectCardList()
 void CardList::DeleteCardList()
 {
     // 移除列表节点
-    for(auto ite = m_cardlist.begin(); ite != m_cardlist.end(); )
+    for(auto ite = m_cardList.begin(); ite != m_cardList.end(); )
     {
         Card* card =*ite;
         if(card->m_isClicked)
         {
-            ite = m_cardlist.erase(ite);
+            ite = m_cardList.erase(ite);
         }
         else
         {
@@ -224,16 +225,16 @@ void CardList::DeleteCardList()
 // 从牌堆选一张牌
 Card *CardList::SelectOneCard()
 {
-    if(!m_cardlist.isEmpty())
+    if(!m_cardList.isEmpty())
     {
-        return m_cardlist.takeFirst();
+        return m_cardList.takeFirst();
     }
     return nullptr;
 }
 
 void CardList::setAllCardsPositive(bool flag)
 {
-    for(auto card: m_cardlist)
+    for(auto card: m_cardList)
     {
         qDebug()<<" "<<flag;
         card->setCardPositive(flag);
@@ -243,12 +244,12 @@ void CardList::setAllCardsPositive(bool flag)
 void CardList::shuffle()
 {
     qint64 seed = QDateTime::currentSecsSinceEpoch();
-    std::shuffle(m_cardlist.begin(), m_cardlist.end(), std::default_random_engine(seed));
+    std::shuffle(m_cardList.begin(), m_cardList.end(), std::default_random_engine(seed));
 }
 // 排序
 void CardList::SortCard()
 {
-    std::sort(m_cardlist.begin(), m_cardlist.end(),[this](Card* &a, Card* &b)
+    std::sort(m_cardList.begin(), m_cardList.end(),[this](Card* &a, Card* &b)
     {
         return getCardValue(a) > getCardValue(b);
     });

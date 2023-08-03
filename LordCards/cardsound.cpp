@@ -2,7 +2,9 @@
 #include "QString"
 #include <QTimer>
 
-void CardSound::palySound(int type)
+#include "rulers.h"
+
+void CardSound::play_sound(int type)
 {
     QString str;
     switch (type) {
@@ -30,6 +32,7 @@ void CardSound::palySound(int type)
     case SOUND_XIPAI:
         str = "xipai";
         break;
+	default: ;
     }
     str = QString(":/sound/%1.wav").arg(str);
     QSound::play(str);
@@ -38,7 +41,7 @@ void CardSound::palySound(int type)
 void CardSound::playBGM()
 {
     static QSoundEffect sound;
-    sound.setSource(QUrl::fromLocalFile(":/sound/bkMusic.wac"));
+    sound.setSource(QUrl::fromLocalFile(":/sound/bkMusic.wav"));
     sound.setLoopCount(QSoundEffect::Infinite);
     sound.setVolume(0.1);
     sound.play();
@@ -48,10 +51,10 @@ void CardSound::playCardSound(QList<Card *> cards)
 {
 
     QString str;
-    int cardtype = Rulers::getCardtype(cards);
+    const int cardtype = Rulers::get_card_type(cards);
     if(cardtype == TRIPLE)
     {
-        QString path = QString(":/sound/sange.wav");
+	    const QString path = QString(":/sound/sange.wav");
         QSound::play(path);
 
         str = QString::number(cards.front()->m_point +3);
@@ -97,6 +100,7 @@ void CardSound::playCardSound(QList<Card *> cards)
     case KINGBOMB:
         str = "wangzha";
         break;
+	default: ;
     }
     str = QString(":/sound/%1.wav").arg(str);
     QSound::play(str);

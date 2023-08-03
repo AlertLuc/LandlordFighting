@@ -1,4 +1,4 @@
-#include "maindialog.h"
+﻿#include "maindialog.h"
 #include "ui_maindialog.h"
 #include "QPalette"
 #include "cardlist.h"
@@ -6,9 +6,9 @@
 #include <synchapi.h>
 #include "cardsound.h"
 #include<QDateTime>
-MainDialog::MainDialog(QWidget *parent)
+main_dialog::main_dialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::MainDialog),m_playround(this, parent)
+    , ui(new Ui::MainDialog),m_playround_(this, parent)
 {
     ui->setupUi(this);
 
@@ -18,10 +18,10 @@ MainDialog::MainDialog(QWidget *parent)
 
     ui->sw_page->setCurrentIndex(0);
 
-    slot_setBackGroud();
+    slot_set_back_ground();
 
     // 随机种子
-    qsrand(QDateTime::currentSecsSinceEpoch());
+    qsrand(QDateTime::currentSecsSinceEpoch());  // NOLINT(clang-diagnostic-shorten-64-to-32)
 
     for(int i = 0; i< CARDLIST_TYPE_COUNT; ++i)
     {
@@ -35,62 +35,90 @@ MainDialog::MainDialog(QWidget *parent)
     m_lbPassArr[CARDLIST_LEFTPLAYER] = ui->lb_leftPess;
     m_lbPassArr[CARDLIST_MIDPLAYER] = ui->lb_midPess;
     m_lbPassArr[CARDLIST_RIGHTPLAYER] = ui->lb_rightPess;
+
+    m_lbIconArray[CARDLIST_LEFTPLAYER] = ui->lb_leftplayericon;
+    m_lbIconArray[CARDLIST_MIDPLAYER] = ui->lb_midplayericon;
+    m_lbIconArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightplayericon;
+
+    m_lbCallLordArray[CARDLIST_LEFTPLAYER] = ui->lb_leftCallLord;
+    m_lbCallLordArray[CARDLIST_MIDPLAYER] = ui->lb_midCallLord;
+    m_lbCallLordArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightCallLord;
+
+    m_lbNoCallArray[CARDLIST_LEFTPLAYER] = ui->lb_leftNoCall;
+    m_lbNoCallArray[CARDLIST_MIDPLAYER] = ui->lb_midNoCall;
+    m_lbNoCallArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightNoCall;
+
+    m_lbClockArray[CARDLIST_LEFTPLAYER] = ui->lb_leftClock;
+    m_lbClockArray[CARDLIST_MIDPLAYER] = ui->lb_midClock;
+    m_lbClockArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightClock;
+
+    m_lbTimerArray[CARDLIST_LEFTPLAYER] = ui->lb_leftTimer;
+    m_lbTimerArray[CARDLIST_MIDPLAYER] = ui->lb_midTimer;
+    m_lbTimerArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightTimer;
+
+    m_lbCardCountArray[CARDLIST_LEFTPLAYER] = ui->lb_leftCardCount;
+    m_lbCardCountArray[CARDLIST_MIDPLAYER] = ui->lb_midCardCount;
+    m_lbCardCountArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightCardCount;
 }
 
-MainDialog::~MainDialog()
+main_dialog::~main_dialog()
 {
     delete ui;
 }
 
 // 点击快速开始
-void MainDialog::on_pb_start_clicked()
+void main_dialog::on_pb_start_clicked()
 {
     ui->sw_page->setCurrentIndex(1);
 
-    slot_startOneGamg();
+    slot_start_one_game();
 }
 
 // 点击下一局
-void MainDialog::on_pb_next_clicked()
+void main_dialog::on_pb_next_clicked() const
 {
     ui->sw_page->setCurrentIndex(1);
 }
 
 // 回到主页
-void MainDialog::on_pb_end_clicked()
+void main_dialog::on_pb_end_clicked() const
 {
     ui->sw_page->setCurrentIndex(0);
 }
 
-void MainDialog::on_pb_text_clicked()
+void main_dialog::on_pb_text_clicked() const
 {
     ui->sw_page->setCurrentIndex(2);
 }
 
-void MainDialog::slot_startOneGamg()
+void main_dialog::slot_start_one_game()
 {
 //    int beginx = 150;
 //    int beginy = 100;
-
 //    for(int i = 0; i < 54; ++i)
 //    {
 //        //创建牌
 //        Card *card = new Card(i, this->ui->page_game);
-
 //        //设置
 //        card->setCardPositive(true);
 //        card->move(beginx + (i) % 13 * CARD_SHOW_WIDTH, beginy + (i) / 13 * Card_Height);
-
 //        //显示牌
 //        card->show();
 //    }
-    m_playround.initRound();
+    m_playround_.initRound();
 
     slot_hideAllPass();
 
     // 出牌叫地主隐藏
+    slot_hide_all_call_lord();
+    slot_hide_all_no_call();
+
+    slot_hide_all_card_count();
+    slot_hide_all_clock();
+    slot_hide_all_timer();
+
     slot_showCallLord(false);
-    slot_showPlayCards(false);
+    slot_show_play_cards(false);
     for(int i = 0; i < 54; ++i)
     {
         Card* card = new Card(i, this->ui->page_game);
@@ -118,6 +146,7 @@ void MainDialog::slot_startOneGamg()
     for(int i = 0; i < 3; ++i)
     {
         Card* card = m_cardList[CARDLIST_WHOLE].SelectOneCard();
+        card->setCardPositive(false);
         m_cardList[CARDLIST_LORD].addCard(card);
     }
 
@@ -157,7 +186,7 @@ void MainDialog::slot_startOneGamg()
     qDebug()<<"";
     m_cardList[CARDLIST_RIGHTPLAYER].PrintCard();
 
-    m_playround.decideBeginLord();
+    m_playround_.decideBeginLord();
 
 //    sound.stop();
     // 排序
@@ -168,36 +197,39 @@ void MainDialog::slot_startOneGamg()
 
 }
 
-void MainDialog::slot_refreshAllCardList()
+void main_dialog::slot_refreshAllCardList()
 {
-    for(int i = 0; i < CARDLIST_TYPE_COUNT; ++i)
+    for (auto& i : m_cardList)
     {
-        m_cardList[i].ShowCard();
+	    i.ShowCard();
+    }
+    for(int i = 0;i < 3;i++)
+    {
+        QString txt = QString::number(m_cardList[i].m_cardList.size());
+        m_lbCardCountArray[i]->setText(txt);
     }
 }
 
 // 添加背景
-void MainDialog::slot_setBackGroud()
+void main_dialog::slot_set_back_ground()
 {
     // 调色板
     QPalette p = this->palette();
 
     // 设置画刷 设置图片
-    QPixmap pixmap(":/image/bk.png");
+    const QPixmap pixmap(":/image/bk.png");
+    // ReSharper disable once CppDeprecatedEntity
     p.setBrush(QPalette::Background, QBrush(pixmap));
 
     // 设置调色板
     this->setPalette(p);
 }
 
-
-
-void MainDialog::on_pb_playCard_clicked()
+void main_dialog::on_pb_playCard_clicked()
 {
     // 选择出牌
-    m_playround.slot_midPlayerPlayCards();
+    m_playround_.slot_midPlayerPlayCards();
     // 清除
-
     // 判断是否符号规则
 //    QList<Card*> lst = m_cardList[CARDLIST_MIDPLAYER].SelectCardList();
 //    if(Rulers::canPlayCards(lst, m_playround.lastPlayerCards)){
@@ -210,11 +242,11 @@ void MainDialog::on_pb_playCard_clicked()
 //    }
 }
 
-void MainDialog::slot_delectAllPlayerCards()
+void main_dialog::slot_delete_all_player_cards()
 {
     for(int i = CARDLIST_LEFTPLAYER; i < 3; i++)
     {
-        while(m_cardList[i+CARDLIST_LEFTPLAYER_OUTCARD].m_cardlist.size() != 0)
+        while(!m_cardList[i + CARDLIST_LEFTPLAYER_OUTCARD].m_cardList.empty())
         {
             Card* card = m_cardList[i+CARDLIST_LEFTPLAYER_OUTCARD].SelectOneCard();
             card->hide();
@@ -222,47 +254,44 @@ void MainDialog::slot_delectAllPlayerCards()
     }
 }
 
-void MainDialog::slot_delectPlayerOutCard(int player)
+void main_dialog::slot_delete_player_out_card(int player)
 {
-    int playerOutCard = player + CARDLIST_LEFTPLAYER_OUTCARD;
-    while(m_cardList[playerOutCard].m_cardlist.size() != 0)
+	const int playerOutCard = player + CARDLIST_LEFTPLAYER_OUTCARD;
+    while(!m_cardList[playerOutCard].m_cardList.empty())
     {
         Card* card = m_cardList[playerOutCard].SelectOneCard();
         card->hide();
     }
 }
 
-void MainDialog::slot_showPlayCards(bool flag)
+void main_dialog::slot_show_play_cards(bool flag) const
 {
     if(flag)
     {
         ui->wdg_palyCards->show();
-
     }
     else{
         ui->wdg_palyCards->hide();
     }
 }
 
-void MainDialog::slot_showCallLord(bool flag)
+void main_dialog::slot_showCallLord(bool flag) const
 {
     if(flag)
     {
         ui->wdg_callLord->show();
-
     }
     else{
         ui->wdg_callLord->hide();
     }
 }
 
-
-void MainDialog::on_pb_pass_clicked()
+void main_dialog::on_pb_pass_clicked()
 {
-    m_playround.slot_midPlayerPass();
+    m_playround_.slot_midPlayerPass();
 }
 
-void MainDialog::slot_hideAllPass()
+void main_dialog::slot_hideAllPass()
 {
     for(QLabel* lb : m_lbPassArr)
     {
@@ -270,31 +299,75 @@ void MainDialog::slot_hideAllPass()
     }
 }
 
-
-void MainDialog::on_pb_callLord_clicked()
+void main_dialog::slot_hide_all_call_lord()
 {
-    m_playround.slot_midPlayerCallLord();
+    for (QLabel* lb : m_lbCallLordArray)
+    {
+        lb->hide();
+    }
 }
 
-
-void MainDialog::on_pb_noCall_clicked()
+void main_dialog::slot_hide_all_no_call()
 {
-    m_playround.slot_midPlayerNoCall();
+    for (QLabel* lb : m_lbNoCallArray)
+    {
+        lb->hide();
+    }
 }
 
-void MainDialog::slot_lordAddLordCards(int player)
+void main_dialog::slot_hide_all_timer()
 {
-    m_cardList[CARDLIST_LORD].setAllCardsPositive(true);
+    for (QLabel* lb : m_lbTimerArray)
+    {
+        lb->hide();
+    }
+}
 
-    for(Card* card : m_cardList[CARDLIST_LORD].m_cardlist)
+void main_dialog::slot_hide_all_clock()
+{
+    for (QLabel* lb : m_lbClockArray)
+    {
+        lb->hide();
+    }
+}
+
+void main_dialog::slot_show_all_cards_count()
+{
+    for (QLabel* lb : m_lbClockArray)
+    {
+        lb->show();
+    }
+}
+
+void main_dialog::slot_hide_all_card_count()
+{
+    for (QLabel* lb : m_lbCardCountArray)
+    {
+        lb->hide();
+    }
+}
+
+void main_dialog::on_pb_callLord_clicked()
+{
+    m_playround_.slot_midPlayerCallLord();
+}
+
+void main_dialog::on_pb_noCall_clicked()
+{
+    m_playround_.slot_midPlayerNoCall();
+}
+
+void main_dialog::slot_lordAddLordCards(int player)
+{
+    for(const Card* card : m_cardList[CARDLIST_LORD].m_cardList)
     {
         Card* newCard = new Card(card->m_point,card->m_suit,this->ui->page_game);
-
         m_cardList[player].addCard(newCard);
-
     }
     m_cardList[player].SortCard();
-
-
+    for(Card* card : m_cardList[CARDLIST_LORD].m_cardList)
+    {
+        card->setCardPositive(true);
+    }
 }
 

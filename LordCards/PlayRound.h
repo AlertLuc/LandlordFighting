@@ -3,16 +3,21 @@
 #include <QObject>
 #include<card.h>
 #include<aiplaycard.h>
-class MainDialog;
-class Cardround : public QObject
+#include<QTime>
+class main_dialog;
+class PlayRound : public QObject
 {
     Q_OBJECT
 public:
-    explicit Cardround(MainDialog *p, QObject *parent);
+    explicit PlayRound(main_dialog *p, QObject *parent);
+
     void initRound();
-    void delaySecond(int msec);
+
+    void delay_second(int m_second);
 
 signals:
+
+
 
 public:
     // 叫地主
@@ -42,21 +47,34 @@ public:
 
     void slot_computerPlayCards(int player);
 
+
     // 结算
     // 出牌
     int biggestPlayer;
+
     int currentPlayer;
 
     // 上一个出牌人牌组
     QList<Card*>lastPlayerCards;
 
-
     //叫地主
     int beginCallLord;
+
     bool isEndCall;
+
     int lordPlayer;
 
+    QTime m_timerArray[3];
+
 private:
-    MainDialog* m_maindialog;
+    main_dialog* m_mainDialog;
+
+public slots:
+    void slot_play_card_time_out();
+
+    void slot_strat_timer(int player);
+
+    void slot_end_timer(int player);
+
 };
 #endif // CARDROUND_H

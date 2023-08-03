@@ -35,7 +35,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page_home">
     <widget class="QLabel" name="home_show">
@@ -81,10 +81,10 @@
     <widget class="QPushButton" name="pb_text">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>40</y>
-       <width>75</width>
-       <height>23</height>
+       <x>0</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -355,6 +355,522 @@ font: 700 11pt &quot;微软雅黑&quot;;</string>
      </property>
      <property name="pixmap">
       <pixmap resource="resources.qrc">:/image/pass.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midplayericon">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>540</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/farmer_head.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftplayericon">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>70</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/farmer_head.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightplayericon">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>70</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/farmer_head.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftCallLord">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>180</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/callLord.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midCallLord">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>300</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/callLord.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightCallLord">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>180</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/callLord.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftNoCall">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>180</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/noCall.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midNoCall">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>300</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/noCall.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightNoCall">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>180</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/noCall.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightCardCount">
+     <property name="geometry">
+      <rect>
+       <x>870</x>
+       <y>10</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>17</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midClock">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>540</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/clock.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftClock">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>70</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/clock.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightClock">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>70</y>
+       <width>61</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>61</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/image/clock.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_rightTimer">
+     <property name="geometry">
+      <rect>
+       <x>940</x>
+       <y>80</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>30</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midCardCount">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>500</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>17</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftCardCount">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>20</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>17</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_midTimer">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>550</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>30</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_leftTimer">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>80</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>30</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
