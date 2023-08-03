@@ -48,17 +48,18 @@ main_dialog::main_dialog(QWidget *parent)
     m_lbNoCallArray[CARDLIST_MIDPLAYER] = ui->lb_midNoCall;
     m_lbNoCallArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightNoCall;
 
-    m_lbClockArray[CARDLIST_LEFTPLAYER] = ui->lb_leftClock;
+	m_lbCardCountArray[CARDLIST_LEFTPLAYER] = ui->lb_leftCardCount;
+	m_lbCardCountArray[CARDLIST_MIDPLAYER] = ui->lb_midCardCount;
+	m_lbCardCountArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightCardCount;
+
+	m_lbClockArray[CARDLIST_LEFTPLAYER] = ui->lb_leftClock;
     m_lbClockArray[CARDLIST_MIDPLAYER] = ui->lb_midClock;
     m_lbClockArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightClock;
 
     m_lbTimerArray[CARDLIST_LEFTPLAYER] = ui->lb_leftTimer;
     m_lbTimerArray[CARDLIST_MIDPLAYER] = ui->lb_midTimer;
     m_lbTimerArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightTimer;
-
-    m_lbCardCountArray[CARDLIST_LEFTPLAYER] = ui->lb_leftCardCount;
-    m_lbCardCountArray[CARDLIST_MIDPLAYER] = ui->lb_midCardCount;
-    m_lbCardCountArray[CARDLIST_RIGHTPLAYER] = ui->lb_rightCardCount;
+    
 }
 
 main_dialog::~main_dialog()
@@ -112,13 +113,12 @@ void main_dialog::slot_start_one_game()
     // 出牌叫地主隐藏
     slot_hide_all_call_lord();
     slot_hide_all_no_call();
-
-    slot_hide_all_card_count();
+    
     slot_hide_all_clock();
-    slot_hide_all_timer();
 
     slot_showCallLord(false);
     slot_show_play_cards(false);
+
     for(int i = 0; i < 54; ++i)
     {
         Card* card = new Card(i, this->ui->page_game);
@@ -149,7 +149,6 @@ void main_dialog::slot_start_one_game()
         card->setCardPositive(false);
         m_cardList[CARDLIST_LORD].addCard(card);
     }
-
     Sleep(1000);
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
@@ -199,11 +198,12 @@ void main_dialog::slot_start_one_game()
 
 void main_dialog::slot_refreshAllCardList()
 {
-    for (auto& i : m_cardList)
+    for (int i = 0; i < CARDLIST_TYPE_COUNT; ++i )
     {
-	    i.ShowCard();
+        m_cardList[i].ShowCard();
     }
-    for(int i = 0;i < 3;i++)
+
+    for(int i = 0; i < 3; ++i)
     {
         QString txt = QString::number(m_cardList[i].m_cardList.size());
         m_lbCardCountArray[i]->setText(txt);
@@ -315,17 +315,13 @@ void main_dialog::slot_hide_all_no_call()
     }
 }
 
-void main_dialog::slot_hide_all_timer()
-{
-    for (QLabel* lb : m_lbTimerArray)
-    {
-        lb->hide();
-    }
-}
-
 void main_dialog::slot_hide_all_clock()
 {
     for (QLabel* lb : m_lbClockArray)
+    {
+        lb->hide();
+    }
+    for (QLabel* lb : m_lbTimerArray)
     {
         lb->hide();
     }
@@ -355,6 +351,11 @@ void main_dialog::on_pb_callLord_clicked()
 void main_dialog::on_pb_noCall_clicked()
 {
     m_playround_.slot_midPlayerNoCall();
+}
+
+void main_dialog::on_pb_helpPlayCard_clicked()
+{
+    m_playround_.slot_computer_help();
 }
 
 void main_dialog::slot_lordAddLordCards(int player)

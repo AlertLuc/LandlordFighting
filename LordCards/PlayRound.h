@@ -47,6 +47,7 @@ public:
 
     void slot_computerPlayCards(int player);
 
+    void slot_computer_help();
 
     // 结算
     // 出牌

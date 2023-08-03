@@ -41,7 +41,7 @@ void PlayRound::decideBeginLord()
 {
 
     // 随机
-    beginCallLord = 1;
+    beginCallLord = qrand() % 3;
     callLordGiveUp(beginCallLord);
 }
 
@@ -74,7 +74,9 @@ void PlayRound::turnCallLord(int player)
 
 
             delay_second(1000);
-            m_mainDialog->slot_show_all_cards_count();
+
+			m_mainDialog->slot_show_all_cards_count();
+
             startRound(biggestPlayer);
 
 
@@ -142,8 +144,9 @@ void PlayRound::slot_midPlayerNoCall()
 
     m_mainDialog->slot_showCallLord(false);
 
+	m_mainDialog->m_lbCallLordArray[CARDLIST_MIDPLAYER]->hide();
     m_mainDialog->m_lbNoCallArray[CARDLIST_MIDPLAYER]->show();
-    m_mainDialog->m_lbCallLordArray[CARDLIST_MIDPLAYER]->hide();
+    
 
     slot_end_timer(CARDLIST_MIDPLAYER);
     turnCallLord(CARDLIST_MIDPLAYER + 1);
@@ -163,14 +166,16 @@ void PlayRound::slot_computerCallLord(int player)
              CardSound::play_sound(SOUND_ROBLORD);
         }
         biggestPlayer = player;
+
 		m_mainDialog->m_lbNoCallArray[player]->hide();
 	    m_mainDialog->m_lbCallLordArray[player]->show();
     }
     else
     {
         CardSound::play_sound(SOUND_NOCALL);
-        m_mainDialog->m_lbNoCallArray[player]->show();
+        
         m_mainDialog->m_lbCallLordArray[player]->hide();
+		m_mainDialog->m_lbNoCallArray[player]->show();
     }
 
     slot_end_timer(player);
@@ -188,8 +193,8 @@ void PlayRound::startRound(int player)
 
     // 清除所有玩家外面手牌
     m_mainDialog->slot_delete_player_out_card(player);
-    // 上一个玩家牌组
 
+    // 上一个玩家牌组
     lastPlayerCards.clear();
 
     // 当前玩家赋值
@@ -216,10 +221,12 @@ void PlayRound::turnPlayer(int player)
     }
 
     slot_strat_timer(player);
+
     m_mainDialog->m_lbPassArr[currentPlayer]->hide();
+
     m_mainDialog->slot_delete_player_out_card(player);
 
-    if(currentPlayer == CARDLIST_MIDPLAYER)
+    if(player == CARDLIST_MIDPLAYER)
     {
         m_mainDialog->slot_show_play_cards(true);
     }
@@ -276,8 +283,34 @@ void PlayRound::slot_computerRound(int player)
 }
 void PlayRound::slot_computerPlayCards(int player)
 {
-    QList<Card*> cards = AIPlayCard::BeatCards(m_mainDialog->m_cardList[player].m_cardList,
-                                  lastPlayerCards);
+    QList<Card*> cards;
+    if(lordPlayer == player || biggestPlayer == lordPlayer || player == biggestPlayer)
+    {
+        cards = AIPlayCard::BeatCards(m_mainDialog->m_cardList[player].m_cardList, lastPlayerCards);
+    }
+    else
+    {
+	    if(biggestPlayer != lordPlayer)
+	    {
+            cards = AIPlayCard::BeatCards(m_mainDialog->m_cardList[player].m_cardList, lastPlayerCards);
+            if(cards.size() != m_mainDialog->m_cardList[player].m_cardList.size())
+            {
+	            for(Card* card:cards)
+	            {
+                    card->setUnSelected();
+	            }
+                cards.clear();
+
+                int type = Rulers::get_card_type(lastPlayerCards);
+                if(type == SINGLE || type == PAIR)
+                {
+                    cards = AIPlayCard::BeatCards(m_mainDialog->m_cardList[player].m_cardList, lastPlayerCards);
+                }
+            }
+	    }
+    }
+
+    cards = AIPlayCard::BeatCards(m_mainDialog->m_cardList[player].m_cardList,lastPlayerCards);
     if(cards.empty())
     {
         CardSound::play_sound(SOUND_PASS);
@@ -294,6 +327,11 @@ void PlayRound::slot_computerPlayCards(int player)
     }
 
     slot_end_timer(player);
+}
+
+void PlayRound::slot_computer_help()
+{
+    AIPlayCard::BeatCards(m_mainDialog->m_cardList[CARDLIST_MIDPLAYER].m_cardList, lastPlayerCards);
 }
 
 void PlayRound::slot_play_card_time_out()
@@ -326,10 +364,10 @@ void PlayRound::slot_play_card_time_out()
 
 void PlayRound::slot_strat_timer(int player)
 {
-    m_timerArray[player].start();
+    m_timerArray[player].start(1000);
     m_mainDialog->m_lbTimerArray[player]->setText("30");
-    m_mainDialog->m_lbClockArray[player]->hide();
-    m_mainDialog->m_lbTimerArray[player]->hide();
+    m_mainDialog->m_lbClockArray[player]->show();
+    m_mainDialog->m_lbTimerArray[player]->show();
 }
 
 void PlayRound::slot_end_timer(int player)

@@ -24,6 +24,8 @@ private slots:
 
     void on_pb_end_clicked() const;
 
+    void on_pb_helpPlayCard_clicked();
+
     // 设置背景
     void slot_set_back_ground();
 
@@ -50,8 +52,6 @@ private slots:
     void slot_hide_all_call_lord();
 
     void slot_hide_all_no_call();
-
-    void slot_hide_all_timer();
 
     void slot_hide_all_clock();
 
