@@ -20,16 +20,16 @@ public:
 private slots:
     void on_pb_start_clicked();
 
-    void on_pb_next_clicked() const;
+    void on_pb_next_clicked();
 
-    void on_pb_end_clicked() const;
+	void on_pb_end_clicked();
 
     void on_pb_helpPlayCard_clicked();
 
     // 设置背景
     void slot_set_back_ground();
 
-    void on_pb_text_clicked() const;
+    void on_pb_text_clicked();
 
     void slot_start_one_game();
 
@@ -41,9 +41,9 @@ private slots:
 
     void slot_delete_player_out_card(int player);
 
-    void slot_show_play_cards(bool flag) const;
+    void slot_show_play_cards(bool flag);
 
-    void slot_showCallLord(bool flag) const;
+    void slot_showCallLord(bool flag);
 
     void on_pb_pass_clicked();
 
@@ -65,10 +65,18 @@ private slots:
 
     void slot_lordAddLordCards(int player);
 
+    void slot_show_win_page();
+
+    void slot_show_result(bool flag);
+
+    void slot_clear_cards();
+
 private:
     Ui::MainDialog *ui;
     CardList m_cardList[CARDLIST_TYPE_COUNT];
     //QList<Card*> m_cardLastPlayer;回合管理
+
+    QList<Card*> m_card_total;
 
     QLabel* m_lbIconArray[3];
 
@@ -87,7 +95,9 @@ private:
 
     QTimer m_refreshTime;
 
+
     friend class PlayRound;
+
 
     QLabel* m_lbPassArr[3]{};
 };

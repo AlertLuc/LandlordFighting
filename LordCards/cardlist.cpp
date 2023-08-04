@@ -243,7 +243,7 @@ void CardList::setAllCardsPositive(bool flag)
 // 洗牌
 void CardList::shuffle()
 {
-    qint64 seed = QDateTime::currentSecsSinceEpoch();
+	qint64 seed = QDateTime::currentSecsSinceEpoch();
     std::shuffle(m_cardList.begin(), m_cardList.end(), std::default_random_engine(seed));
 }
 // 排序

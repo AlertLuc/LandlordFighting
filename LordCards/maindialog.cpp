@@ -76,20 +76,22 @@ void main_dialog::on_pb_start_clicked()
 }
 
 // 点击下一局
-void main_dialog::on_pb_next_clicked() const
+void main_dialog::on_pb_next_clicked() 
 {
-    ui->sw_page->setCurrentIndex(1);
+    on_pb_start_clicked();
 }
 
 // 回到主页
-void main_dialog::on_pb_end_clicked() const
+void main_dialog::on_pb_end_clicked() 
 {
     ui->sw_page->setCurrentIndex(0);
 }
 
-void main_dialog::on_pb_text_clicked() const
+void main_dialog::on_pb_text_clicked() 
 {
-    ui->sw_page->setCurrentIndex(2);
+    m_playround_.m_isStop = true;
+    m_playround_.slot_close_all_timer();
+    ui->sw_page->setCurrentIndex(0);
 }
 
 void main_dialog::slot_start_one_game()
@@ -106,17 +108,22 @@ void main_dialog::slot_start_one_game()
 //        //显示牌
 //        card->show();
 //    }
+    m_refreshTime.stop();
     m_playround_.initRound();
+
+    slot_clear_cards();
 
     slot_hideAllPass();
 
     // 出牌叫地主隐藏
     slot_hide_all_call_lord();
+
     slot_hide_all_no_call();
     
     slot_hide_all_clock();
 
     slot_showCallLord(false);
+
     slot_show_play_cards(false);
 
     for(int i = 0; i < 54; ++i)
@@ -124,24 +131,24 @@ void main_dialog::slot_start_one_game()
         Card* card = new Card(i, this->ui->page_game);
         card->setCardPositive(false);
         m_cardList[CARDLIST_WHOLE].addCard(card);
+
+        m_card_total.append(card);
     }
+
     // 洗牌
     m_cardList[CARDLIST_WHOLE].shuffle();
-
     m_refreshTime.start(1000/10);
-
-//    m_cardList[CARDLIST_WHOLE].ShowCard();
-
+	QSound sound(":/sound/xipai.wav");
+    sound.play();
     qDebug()<<"总牌数";
     m_cardList[CARDLIST_WHOLE].PrintCard();
 
+    if (m_playround_.m_isStop)return;
     Sleep(1000);
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
     slot_refreshAllCardList();
 
-    QSound sound(":/sound/xipai.wav");
-    sound.play();
     //发牌动画
     for(int i = 0; i < 3; ++i)
     {
@@ -149,24 +156,21 @@ void main_dialog::slot_start_one_game()
         card->setCardPositive(false);
         m_cardList[CARDLIST_LORD].addCard(card);
     }
-    Sleep(1000);
-    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-
-    slot_refreshAllCardList();
-
-    m_cardList[CARDLIST_WHOLE].SortCard();
 
     //玩家手牌顺序
-    for(int i = 0; i < 54 - 3; ++i)
+    for (int i = 0; i < 54 - 3; ++i)
     {
+        if (m_playround_.m_isStop)return;
+
         Sleep(50);
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
         Card* card = m_cardList[CARDLIST_WHOLE].SelectOneCard();
-        if(i%3 == 0)
+        if (i % 3 == 0)
         {
             m_cardList[CARDLIST_LEFTPLAYER].addCard(card);
         }
-        else if(i%3 == 1)
+        else if (i % 3 == 1)
         {
             m_cardList[CARDLIST_MIDPLAYER].addCard(card);
         }
@@ -176,24 +180,15 @@ void main_dialog::slot_start_one_game()
         }
     }
 
-    qDebug()<<"";
-    m_cardList[CARDLIST_LEFTPLAYER].PrintCard();
+    if (m_playround_.m_isStop)return;
+    Sleep(1000);
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
-    qDebug()<<"";
-    m_cardList[CARDLIST_MIDPLAYER].PrintCard();
+    slot_refreshAllCardList();
 
-    qDebug()<<"";
-    m_cardList[CARDLIST_RIGHTPLAYER].PrintCard();
+    m_cardList[CARDLIST_WHOLE].SortCard();
 
     m_playround_.decideBeginLord();
-
-//    sound.stop();
-    // 排序
-//    m_cardList[CARDLIST_LEFTPLAYER].SortCard();
-//    m_cardList[CARDLIST_MIDPLAYER].SortCard();
-//    m_cardList[CARDLIST_RIGHTPLAYER].SortCard();
-//    m_playround.startRound(CARDLIST_LEFTPLAYER);
-
 }
 
 void main_dialog::slot_refreshAllCardList()
@@ -264,7 +259,7 @@ void main_dialog::slot_delete_player_out_card(int player)
     }
 }
 
-void main_dialog::slot_show_play_cards(bool flag) const
+void main_dialog::slot_show_play_cards(bool flag) 
 {
     if(flag)
     {
@@ -275,7 +270,7 @@ void main_dialog::slot_show_play_cards(bool flag) const
     }
 }
 
-void main_dialog::slot_showCallLord(bool flag) const
+void main_dialog::slot_showCallLord(bool flag) 
 {
     if(flag)
     {
@@ -364,11 +359,43 @@ void main_dialog::slot_lordAddLordCards(int player)
     {
         Card* newCard = new Card(card->m_point,card->m_suit,this->ui->page_game);
         m_cardList[player].addCard(newCard);
+        m_card_total.append(newCard);
     }
     m_cardList[player].SortCard();
     for(Card* card : m_cardList[CARDLIST_LORD].m_cardList)
     {
         card->setCardPositive(true);
     }
+}
+
+void main_dialog::slot_show_win_page()
+{
+    ui->sw_page->setCurrentIndex(2);
+}
+
+void main_dialog::slot_show_result(bool flag)
+{
+    if(flag)
+    {
+        ui->label->setText("恭喜！\n你赢了");
+    }
+    else
+    {
+        ui->label->setText("你输了");
+    }
+}
+
+void main_dialog::slot_clear_cards()
+{
+    for(int i = 0 ; i < CARDLIST_TYPE_COUNT; ++i)
+    {
+        m_cardList[i].m_cardList.clear();
+    }
+    for(Card* card:m_card_total)
+    {
+        card->hide();
+        card->deleteLater();
+    }
+    m_card_total.clear();
 }
 

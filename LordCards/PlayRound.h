@@ -49,6 +49,10 @@ public:
 
     void slot_computer_help();
 
+
+    bool slot_isEnd(int player);
+
+    void slot_close_all_timer();
     // 结算
     // 出牌
     int biggestPlayer;
@@ -66,6 +70,9 @@ public:
     int lordPlayer;
 
     QTimer m_timerArray[3];
+
+
+    bool m_isStop = false;
 
 private:
     main_dialog* m_mainDialog;
